@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  version: 1.1.0
+  version: 1.2.0
   title: Custody Services
-  description: 'This API is part of the APIs for the connectivity between custody banks and WealthTechs (e.g. Portfolio Management Systems). This API allows the user to receive data from custody banks regarding accounts and positions. The API is designed to be used for either update end of day data batches or single near-realtime account/position information. Furthermore, this API allows the user to receive data from custody banks regarding transactions. In this version (1.1) only transactions which include effective cash or securities movements are in scope and corporate actions are delivered only on a informative basis. <p> This API was developed under the umbrella of the OpenWealth Association by the member companies of this association. For detailed information about this non-profit organization please visit https://openwealth.ch <p> The present release was approved by the Common API working group of the SFTI trade association in March 2021. Hence, the present specification conforms to the implementation guidelines of the Common API Initiative of SFTI.'
+  description: 'This API is part of the OpenWealth APIs for the connectivity between custody banks and WealthTechs (e.g. Portfolio Management Systems). This API allows the user to receive data from custody banks regarding accounts and positions. The API is designed to be used for either update end of day data batches or single near-realtime account/position information. Furthermore, this API allows the user to receive data from custody banks regarding transactions. In this version (1.2) only transactions which include effective cash or securities movements are in scope and corporate actions are delivered only on a informative basis.'
   contact:
     email: wealth@common-api.ch
   license:
@@ -10,7 +10,7 @@ info:
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/OpenWealthAPI/Custody_Services/1.1.0
+    url: https://virtserver.swaggerhub.com/OpenWealthAPI/Custody_Services/1.2.0
 
     
 paths:
@@ -21,19 +21,19 @@ paths:
       - $ref: '#/components/parameters/correlation_in_header'
     get:
       summary: Returns all customers and respective accounts accessible for the logged in user.
-      description: This endpoint returns a highlevel list of customers and the respective accounts accessible for the logged in user.
+      description: This endpoint returns a highlevel list of customers and the respective accounts accessible for the logged in user. Paging is done based on the customerOverview object, i.e. if limit is set to 1, then 1 customerOverview will be returned per page.
+
       operationId: getCustomerAccounts
       tags:
-        - CustomerAccounts
+        - customeraccount
       responses:
         '200':
           description: Returns a list with all customers and the respective accounts.
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-                description: Client defined ID from request to correlates HTTP requests between a client and server.
-                example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+              $ref: '#/components/headers/X-Correlation-ID'
+            nextCursor:
+              $ref: '#/components/headers/nextCursor'
           content:
             application/json:
               schema:
@@ -69,16 +69,13 @@ paths:
       description: This endpoint returns a highlevel list of a customer and the respective accounts accessible for the logged in user. 
       operationId: getCustomerAccountsByCustomerId
       tags:
-        - CustomerAccounts
+        - customeraccount
       responses:
         '200':
           description: Returns a the specified customers and the respective accounts.
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-                description: Client defined ID from request to correlates HTTP requests between a client and server.
-                example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+              $ref: '#/components/headers/X-Correlation-ID'
           content:
             application/json:
               schema:
@@ -114,28 +111,22 @@ paths:
       - $ref: '#/components/parameters/correlation_in_header'
     get:
       summary: Returns all positions for a specific customer.
-      description: Returns all positions (incl. investment cash accounts) for a specific customer.
+      description: Returns all positions (incl. investment cash accounts) for a specific customer. Paging is done based on the account object, i.e. if limit is set to 1, then 1 account will be returned per page.
       operationId: getPositionsByCustomerId
       tags:
-        - Positions
+        - positions
       responses:
         '200':
           description: Position List
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-                description: Client defined ID from request to correlates HTTP requests between a client and server.
-                example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+              $ref: '#/components/headers/X-Correlation-ID'
+            nextCursor:
+              $ref: '#/components/headers/nextCursor'
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  statement:
-                    $ref: '#/components/schemas/statement'
-                  customer:
-                    $ref: '#/components/schemas/customerAccounts'
+                $ref: '#/components/schemas/customerAndStatementResponse'
                 
         '400':
           $ref: '#/components/responses/standard400'
@@ -165,28 +156,22 @@ paths:
       - $ref: '#/components/parameters/correlation_in_header'
     get:
       summary: Returns the positions for a customer's specific account.
-      description: Returns all positions for a specific account.
+      description: Returns all positions for a specific account. Paging is done based on the position object, i.e. if limit is set to 1, then 1 position will be returned per page.
       operationId: getPositionsByAccountId
       tags:
-        - Positions
+        - positions
       responses:
         '200':
           description: Position List
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-                description: Client defined ID from request to correlates HTTP requests between a client and server.
-                example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+              $ref: '#/components/headers/X-Correlation-ID'
+            nextCursor:
+              $ref: '#/components/headers/nextCursor'
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  statement:
-                    $ref: '#/components/schemas/statement'
-                  customer:
-                    $ref: '#/components/schemas/customerAccounts'
+                $ref: '#/components/schemas/customerAndStatementResponse'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -215,30 +200,22 @@ paths:
       - $ref: '#/components/parameters/correlation_in_header'
     get:
       summary: Returns transactions for a specific customer.
-      description: Returns all transactions for the a specific customer.
+      description: Returns all transactions for the a specific customer. Paging is done based on the transaction object, i.e. if limit is set to 1, then 1 transaction will be returned per page.
       operationId: getTransactionsByCustomerId
       tags:
-        - Transactions
+        - transactions
       responses:
         '200':
           description: Returns a transaction list for a specific customer.
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-                description: Client defined ID from request to correlates HTTP requests between a client and server.
-                example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+              $ref: '#/components/headers/X-Correlation-ID'
+            nextCursor:
+              $ref: '#/components/headers/nextCursor'
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  statement:
-                    $ref: '#/components/schemas/statement'
-                  transactions:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/transaction'
+                $ref: '#/components/schemas/transactionAndStatementResponse'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -267,30 +244,22 @@ paths:
       - $ref: '#/components/parameters/correlation_in_header'
     get:
       summary: Returns the transactions a specific account.
-      description: Returns the transactions for all positions in a specific account.
+      description: Returns the transactions for all positions in a specific account. Paging is done based on the transaction object, i.e. if limit is set to 1, then 1 transaction will be returned per page.
       operationId: getTransactionsByAccountId
       tags:
-        - Transactions
+        - transactions
       responses:
         '200':
           description: Returns a transactions list for all positions and cash accounts in a specific protfolio.
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-                description: Client defined ID from request to correlates HTTP requests between a client and server.
-                example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+              $ref: '#/components/headers/X-Correlation-ID'
+            nextCursor:
+              $ref: '#/components/headers/nextCursor'
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  statement:
-                    $ref: '#/components/schemas/statement'
-                  transactions:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/transaction'
+                $ref: '#/components/schemas/transactionAndStatementResponse'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -319,30 +288,22 @@ paths:
       - $ref: '#/components/parameters/correlation_in_header'
     get:
       summary: Returns the transactions for a specific position.
-      description: Returns transactions for a specific position.
+      description: Returns transactions for a specific position. Paging is done based on the transaction object, i.e. if limit is set to 1, then 1 transaction will be returned per page.
       operationId: getTransactionsByPositionId
       tags:
-        - Transactions
+        - transactions
       responses:
         '200':
           description: Transaction list
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-                description: Client defined ID from request to correlates HTTP requests between a client and server.
-                example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+              $ref: '#/components/headers/X-Correlation-ID'
+            nextCursor:
+              $ref: '#/components/headers/nextCursor'
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  statement:
-                    $ref: '#/components/schemas/statement'
-                  transactions:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/transaction'
+                $ref: '#/components/schemas/transactionAndStatementResponse'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -407,21 +368,7 @@ components:
       required: true
       schema:
         type: string
-        description: The position's id    
-    fromDateParam:
-      name: fromDate
-      in: query
-      schema:
-        type: string
-        format: date
-        example: '2019-12-30'
-    toDateParam:
-      name: toDate
-      in: query
-      schema:
-        type: string
-        format: date
-        example: '2019-12-31'
+        description: The position's id
     endOfDayParam:
       name: eodIndicator
       in: query
@@ -455,6 +402,24 @@ components:
       required: true
       schema:
         type: string
+
+  ###############
+  # Headers     #
+  ###############
+
+  headers:
+  
+    X-Correlation-ID:
+      description: Client defined ID from request to correlates HTTP requests between a client and server.
+      schema:
+        type: string
+        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+    nextCursor:
+      description: An opaque string value, or an empty string if there are no more results. 
+      required: false
+      schema:
+        type: string
+        
         
 ######################
 # Schemas
@@ -534,6 +499,14 @@ components:
           items:
             $ref: '#/components/schemas/account'
 
+    customerAndStatementResponse:
+      type: object
+      properties:
+        statement:
+          $ref: '#/components/schemas/statement'
+        customer:
+          $ref: '#/components/schemas/customerAccounts'
+          
     account:
       type: object
       required: 
@@ -588,10 +561,11 @@ components:
           type: object
           properties:
             amount:
-              type: number
-              format: float
+              type: string
+              pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+              maxLength: 22
+              example: "12000"
               description: Absolute amount of the position
-              example: 12000
             type: 
               type: string
               description: Specifies the type of the amount
@@ -618,9 +592,11 @@ components:
             type: object
             properties:
               amount:
-                type: number
+                type: string
+                pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+                maxLength: 22
                 description: Amount of the price
-                example: 100.4
+                example: "100.4"
               amountType:
                 type: string
                 description: Indicates whether the price amount is depicted as unit price or percentage.
@@ -651,19 +627,23 @@ components:
                 description: Date of the end of day price. Date according to ISO 8601 i.e. YYYY-MM-DD format
               sourceOfPrice:  
                 type: string
-                maxLength: 35
+                maxLength: 70
                 description: Indicates the source of the (market)price
                 example: SIX Swiss Exchange
-              foreignExchangeRate:
-                $ref: '#/components/schemas/foreignExchangeRate'
+              foreignExchangeRates:
+                type: array
+                items:
+                  $ref: '#/components/schemas/foreignExchangeRate'
               valuation:
                 type: object
                 description: Valuation of the position in account currency. Accrued interests are not included in the valuation. 
                 properties:
                   amount:
-                    type: number
+                    type: string
+                    pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+                    maxLength: 22
                     description: Absolute amount of the valuation
-                    example: 13104.5
+                    example: "13104.5"
                   currency:
                     $ref: '#/components/schemas/currency'
                   creditDebitIndicator:
@@ -687,9 +667,10 @@ components:
           type: object
           properties:
             amount:
-              type: number
-              format: float
-              example: 82.34
+              type: string
+              pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+              maxLength: 22
+              example: "10.25"
               description: Absolute interest amount that has accrued in between coupon payment periods
             currency:
               $ref: '#/components/schemas/currency'
@@ -784,7 +765,6 @@ components:
           - securitiesExchange
           - cash
           - fees
-          - interest
           - credit
           - fx
           - taxes
@@ -793,8 +773,14 @@ components:
           - moneyMarket
           - securitiesTransfer
           - physical
-          - interestSwap
-          - medium-termNotes
+          - otcForwardRateAgreement
+          - otcOption
+          - otcCreditDefaultSwap
+          - otcTotalReturnSwap
+          - otcIRSCapsFloorsCollars
+          - otcInterestRateSwap
+          - otcCrossCurrencySwap
+          - otcSwaption
           - others
         transactionSubtype:
           type: string
@@ -858,10 +844,11 @@ components:
             type: object
             properties:
               amount:
-                type: number
-                format: float
+                type: string
+                pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+                maxLength: 22
+                example: "100.36"
                 description: Price indication
-                example: 100.36
               amountType:
                 type: string
                 description: Specifies the type of price
@@ -894,10 +881,11 @@ components:
           - movementType
         properties:
           amount:
-            type: number
-            format: float
+            type: string
+            pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+            maxLength: 22
+            example: "100000"
             description: Positive amount of the movement
-            example: 100000
           amountType:
             type: string
             description: Specifies the type of amount
@@ -998,9 +986,11 @@ components:
       description: Total amount of money that is to be/was posted to the account in the account currency.
       properties:
         amount:
-          type: number
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
           description: Absolute amount of the transaction
-          example: 13023
+          example: "13023"
         currency:
           $ref: '#/components/schemas/currency'
         creditDebitIndicator:
@@ -1101,9 +1091,10 @@ components:
           type: object
           properties:
             rate:
-              type: number
-              format: float
-              example: 0.00125
+              type: string
+              pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+              maxLength: 22
+              example: "0.00125"
               description: Interest rate of the instrument
             currency:
               $ref: '#/components/schemas/currency'
@@ -1185,19 +1176,22 @@ components:
               - berm
               description: Specifies how an option can be exercised (American, European, Bermudan).
         contractSize:
-          type: number
-          format: float
-          example: 100
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
+          example: "100"
           description: Contract size of the instrument
         minimumDenomination:
-          type: number
-          format: float
-          example: 100000
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
+          example: "100000"
           description: Indicates the minimum denomination of a security.
         minimumIncrement:
-          type: number
-          format: float
-          example: 1000
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
+          example: "10000"
           description: Indicates the minimum tradable increments of a security.
         financialInstrumentPrices:
           type: array
@@ -1206,9 +1200,10 @@ components:
             type: object
             properties:
               amount:
-                type: number
-                format: float
-                example: 100
+                type: string
+                pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+                maxLength: 22
+                example: "100.9"
                 description: Declares the amount of the indicated price
               creditDebitIndicator:
                 type: string
@@ -1276,8 +1271,6 @@ components:
           example: Group contract number 129959961
     
     foreignExchangeRate:
-      type: array
-      items:
         type: object
         properties:
           sourceCurrency:
@@ -1286,10 +1279,11 @@ components:
             pattern: '[A-Z]{3}'
             example: 'CHF'
           rate:
-            type: number
-            format: float
+            type: string
+            pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+            maxLength: 22
+            example: "1.0963"
             description: Indicates the rate of a fx transaction for one source currency unit to the target currency. E.g. 1GBP=xxxEUR, where the source currency is GBP and the target currency is EUR.
-            example: 1.0963
           targetCurrency:
             description: Currency into which an amount is to be converted in a currency conversion.
             type: string
@@ -1302,6 +1296,16 @@ components:
             enum: 
             - real
             - calculatory
+    
+    transactionAndStatementResponse:
+      type: object
+      properties:
+          statement:
+            $ref: '#/components/schemas/statement'
+          transactions:
+            type: array
+            items:
+              $ref: '#/components/schemas/transaction'
     
     currency:
       description: ISO 4217 code
