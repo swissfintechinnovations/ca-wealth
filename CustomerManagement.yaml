@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  version: 1.1.0
+  version: 1.2.1
   title: 'Customer Management API'
-  description: 'This API is part of the OpenWealth APIs for the connectivity between custody banks and WealthTechs (e.g. Portfolio Management Systems). This API allows the user to receive data from custody banks regarding customer data and alter and create address and contact data. <p> This API was developed under the umbrella of the OpenWealth Association by the member companies of this association. For detailed information about this non-profit organization please visit https://openwealth.ch <p> The present release was approved by the Common API working group of the SFTI trade association in March 2021. Hence, the present specification conforms to the implementation guidelines of the Common API Initiative of SFTI.'
+  description: 'This API is part of the OpenWealth APIs for the connectivity between custody banks and WealthTechs (e.g. Portfolio Management Systems). This API allows the user to receive data from custody banks regarding customer data and alter and create address and contact data.'
   contact:
     email: wealth@common-api.ch
   license:
@@ -11,16 +11,17 @@ info:
 servers:
 # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/OpenWealthAPI/CustomerManagement/1.1.0
+    url: https://virtserver.swaggerhub.com/OpenWealthAPI/CustomerManagement/1.2.1
 
 paths:
     /customers:
         get:
             summary: Returns a list of customers.
-            description: Returns a list of all customers. A customer is an object which holds a contract with a (custody-)bank.
+            description: Returns a list of all customers. A customer is an object which holds a contract with a (custody-)bank. Paging is done based on the customer object, i.e. if limit is set to 1, then 1 customer will be returned per page.
+
             operationId: getCustomers
             tags:
-             - Customer
+             - customer
             parameters: 
               - $ref: '#/components/parameters/cursor'
               - $ref: '#/components/parameters/limit'
@@ -30,10 +31,9 @@ paths:
                     description: A customer object list.
                     headers:
                       X-Correlation-ID:
-                        schema:
-                          type: string
-                          description: Client defined ID from request to correlates HTTP requests between a client and server.
-                          example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+                        $ref: '#/components/headers/X-Correlation-ID'
+                      nextCursor:
+                        $ref: '#/components/headers/nextCursor'
                     content:
                         application/json:
                             schema:
@@ -68,16 +68,13 @@ paths:
             description: Returns a full client record for a specific customer id.
             operationId: getCustomerByCustomerId
             tags:
-              - Customer
+              - customer
             responses:
                 '200':
                     description: A specific customer object.
                     headers:
                       X-Correlation-ID:
-                        schema:
-                          type: string
-                          description: Client defined ID from request to correlates HTTP requests between a client and server.
-                          example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+                        $ref: '#/components/headers/X-Correlation-ID'
                     content:
                         application/json:
                             schema:
@@ -110,25 +107,17 @@ paths:
             description: Returns the know-your-client record for a specific customer.
             operationId: getKycByCustomerId
             tags:
-              - KYC
+              - kyc
             responses:
                 '200':
                     description: A specific kyc object.
                     headers:
                       X-Correlation-ID:
-                        schema:
-                          type: string
-                          description: Client defined ID from request to correlates HTTP requests between a client and server.
-                          example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+                        $ref: '#/components/headers/X-Correlation-ID'
                     content:
                         application/json:
                             schema:
-                                type: object
-                                properties:
-                                  customer:
-                                   $ref: '#/components/schemas/customer'
-                                  kyc:
-                                   $ref: '#/components/schemas/kyc'
+                                $ref: '#/components/schemas/customerAndKycResponse'
 
                 '400':
                   $ref: '#/components/responses/standard400'
@@ -154,19 +143,19 @@ paths:
           - $ref: '#/components/parameters/correlation_in_header'
         get:
             summary: Returns a list with all person objects.
-            description: Returns all person records.
+            description: Returns all person records. Paging is done based on the person object, i.e. if limit is set to 1, then 1 person will be returned per page.
+
             operationId: getPersons
             tags:
-              - Person
+              - person
             responses:
                 '200':
                     description: A person list.
                     headers:
                       X-Correlation-ID:
-                        schema:
-                          type: string
-                          description: Client defined ID from request to correlates HTTP requests between a client and server.
-                          example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+                        $ref: '#/components/headers/X-Correlation-ID'
+                      nextCursor:
+                        $ref: '#/components/headers/nextCursor'
                     content:
                         application/json:
                             schema:
@@ -201,16 +190,13 @@ paths:
             description: Returns a person record for a specific person id.
             operationId: getPersonByPersonId
             tags:
-              - Person
+              - person
             responses:
                 '200':
                     description: A specific person object.
                     headers:
                       X-Correlation-ID:
-                        schema:
-                          type: string
-                          description: Client defined ID from request to correlates HTTP requests between a client and server.
-                          example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+                        $ref: '#/components/headers/X-Correlation-ID'
                     content:
                         application/json:
                             schema:
@@ -242,16 +228,13 @@ paths:
             description: Returns a contact detail list for a specific person id.
             operationId: getContactDetailsByPersonId
             tags:
-              - Person
+              - person
             responses:
                 '200':
                     description: A contact detail list.
                     headers:
                       X-Correlation-ID:
-                        schema:
-                          type: string
-                          description: Client defined ID from request to correlates HTTP requests between a client and server.
-                          example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+                        $ref: '#/components/headers/X-Correlation-ID'
                     content:
                         application/json:
                             schema:
@@ -279,7 +262,7 @@ paths:
             description: Creates new contact details for a specific person id.
             operationId: postContactDetailsByPersonId
             tags:
-              - Person
+              - person
             requestBody:
               content:
                 application/json:
@@ -290,10 +273,7 @@ paths:
                   description: Contact details created.
                   headers:
                       X-Correlation-ID:
-                        schema:
-                          type: string
-                          description: Client defined ID from request to correlates HTTP requests between a client and server.
-                          example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+                        $ref: '#/components/headers/X-Correlation-ID'
                   content:
                     application/json:
                       schema:
@@ -324,7 +304,7 @@ paths:
           summary: Creates a new address object for a specific customer.
           operationId: postAddressByCustomerId
           tags:
-              - Address
+              - address
           requestBody:
             required: true
             content:
@@ -336,19 +316,11 @@ paths:
               description: Successfully created a new address object.
               headers:
                       X-Correlation-ID:
-                        schema:
-                          type: string
-                          description: Client defined ID from request to correlates HTTP requests between a client and server.
-                          example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+                        $ref: '#/components/headers/X-Correlation-ID'
               content:
                 application/json:
                   schema:
-                    type: object
-                    properties:
-                      addressIdentification:
-                        type: string
-                        example: 7353
-                        description: ID of the newly created address object.
+                    $ref: '#/components/schemas/addressIdentificationResponse'
             '400':
               $ref: '#/components/responses/standard400'
             '401':
@@ -368,25 +340,20 @@ paths:
               
         get:
             summary: Returns the address of a specific customer.
-            description: Returns a address record for a specific address id.
+            description: Returns a address record for a specific customer.
             operationId: getAddressByCustomerId
             tags:
-              - Address
+              - address
             responses:
               '200':
-                      description: A specific address object.
-                      headers:
-                        X-Correlation-ID:
-                          schema:
-                            type: string
-                            description: Client defined ID from request to correlates HTTP requests between a client and server.
-                            example: f058ebd6-02f7-4d3f-942e-904344e8cde5
-                      content:
-                          application/json:
-                              schema:
-                                type: object
-                                items:  
-                                    $ref: '#/components/schemas/address'
+                description: A specific address object.
+                headers:
+                  X-Correlation-ID:
+                    $ref: '#/components/headers/X-Correlation-ID'
+                content:
+                  application/json:
+                      schema:
+                        $ref: '#/components/schemas/address'
               '400':
                 $ref: '#/components/responses/standard400'
               '401':
@@ -408,7 +375,7 @@ paths:
           summary: Updates an existing address object for a specific customer.
           operationId: putAddressByCustomerId
           tags:
-              - Address
+              - address
           requestBody:
             required: true
             content:
@@ -420,10 +387,7 @@ paths:
               description: No content.
               headers:
                       X-Correlation-ID:
-                        schema:
-                          type: string
-                          description: Client defined ID from request to correlates HTTP requests between a client and server.
-                          example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+                        $ref: '#/components/headers/X-Correlation-ID'
             '400':
               $ref: '#/components/responses/standard400'
             '401':
@@ -480,8 +444,27 @@ components:
       required: true
       schema:
         type: string
+
+  ###############
+  # Headers     #
+  ###############
+
+  headers:
+  
+    X-Correlation-ID:
+      description: Client defined ID from request to correlates HTTP requests between a client and server.
+      schema:
+        type: string
+        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+    nextCursor:
+      description: An opaque string value, or an empty string if there are no more results. 
+      required: false
+      schema:
+        type: string
+        
+        
 ######################
-# schemas
+# Schemas
 ######################
   schemas:
 
@@ -594,183 +577,195 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/contactDetails'
-        personType:
-          type: object
-          properties:
-            personType:
-              type: string
-              enum: 
-              - naturalPerson
-              - legalPerson
-              - personAssociation
-              - trust
-              - soleProprietorship
-              example: naturalPerson
-              description: 'Indicates the type of the person object'
         personDetails:
           description: Further details about the person. Schema depends on personType.
-          oneOf:
-            - $ref: '#/components/schemas/naturalPerson'
-            - $ref: '#/components/schemas/legalPerson'
-            - $ref: '#/components/schemas/trust' 
-            - $ref: '#/components/schemas/personAssociation' 
-            - $ref: '#/components/schemas/soleProprietorship'  
+          $ref: '#/components/schemas/personDetails'
         taxDomicile:
           type: array
           description: 'Indicates the tax domiciles of the person'
           items:
-            $ref: '#/components/schemas/country'        
-    naturalPerson:
-      type: object
-      properties:
-        givenName:
-          type: string
-          maxLength: 35
-          example: Anthony
-          description: 'Given name of the person'
-        middleName:
-          type: string
-          maxLength: 35
-          example: Edward
-          description: 'Middle name of the person'
-        lastName:
-          type: string
-          maxLength: 35
-          example: Stark
-          description: 'Last name of the person'
-        title:
-          type: string
-          maxLength: 35
-          example: PhD
-          description: 'Official title of the person'
-        dates:
-          type: array
-          items:
-            type: object
-            properties:
-              date:
-                $ref: '#/components/schemas/date'
-              dateType:
-                description: Type of the date
-                type: string
-                enum: 
-                - birthDate
-                - divorceDate
-                - deathDate
-        gender:
-          type: string
-          enum: 
-          - male
-          - female
-          - other
-          example: male
-          description: 'Gender of the person'
-        nationality:
-          type: array
-          description: 'Indicates the nationality of the person'
-          items:
             $ref: '#/components/schemas/country'
-        civilStatus:
-          type: string
-          enum: 
-          - unmarried
-          - married
-          - divorced
-          - widowed
-          example: married
-          description: 'Civil status of the individual person'
-        TIN:
-          type: string
-          maxLength: 35
-          example: 123-12-1234
-                      
-    legalPerson:
-      type: object
-      required: 
-        - organisationName
-        - legalForm
-        - domicilaryCompany
-      properties:
-        organisationName:
-          type: string
-          minLength: 1
-          maxLength: 35
-          description: 'Name by which the organisation is known and which is usually used to identify that organisation'
-          example: Stark Industries
-        legalForm:
-          type: string
-          maxLength: 35
-          description: 'Legal status of the company'
-          example: AG
-        LEI:
-          type: string
-          pattern: '[A-Z0-9]{18,18}[0-9]{2,2}'
-          example: 529900UVM8LC55IFAA52
-          description: Legal entity identifier
-        domicilaryCompany:
-          type: boolean
-          description: 'Indicates wheter the company is a domicilary company'
-          example: FALSE
 
-    personAssociation:
+    personDetails:
       type: object
-      required: 
-        - personAssociationName
-      properties:
-        personAssociationName:
-          type: string
-          minLength: 1
-          maxLength: 70
-          description: 'Name of the association object'
-          example: Anthony Stark a/o Piper Potts
-        personAssociationType:
-          type: string
-          enum: 
-          - compteJoint
-          - jointHeirs
-          - unregisteredParntership
-          - limitedPartnership
-          - collectiveProprietorship
-          description: 'Type of assocation'
-          example: compteJoint
-    
-    trust:
-      type: object
-      required: 
-        - trustName
-        - trustType
-      properties:
-        trustName:
-          type: string
-          minLength: 1
-          maxLength: 70
-          description: 'Name of the trust object'
-          example: Spiderman Trust
-        trustType:
-          type: string
-          enum: 
-          - simpleTrust
-          - complexTrust
-          - grantorTrust
-          description: 'Type of trust'
-          example: simpleTrust
-
-    soleProprietorship:
-      type: object
+      description: 'Further details about the person. Schema depends on personType.'
       required:
-        - soleProprietorshipName
+        - personType
       properties:
-        soleProprietorshipName:
+        personType:
           type: string
-          minLength: 1
-          maxLength: 70
-          description: 'Name of the sole proprietorship object'
-          example: Anthony Stark
+          enum:
+            - naturalPerson
+            - legalPerson
+            - personAssociation
+            - trust
+            - soleProprietorship
+          example: naturalPerson
+          description: 'Indicates the type of the person object'
+      discriminator:
+        propertyName: personType
+
+    naturalPerson: # "naturalPerson" will be used as disciminator
+      allOf:
+        - $ref: '#/components/schemas/personDetails'
+        - type: object
+          properties:
+            givenName:
+              type: string
+              maxLength: 35
+              example: Anthony
+              description: 'Given name of the person'
+            middleName:
+              type: string
+              maxLength: 35
+              example: Edward
+              description: 'Middle name of the person'
+            lastName:
+              type: string
+              maxLength: 35
+              example: Stark
+              description: 'Last name of the person'
+            title:
+              type: string
+              maxLength: 35
+              example: PhD
+              description: 'Official title of the person'
+            dates:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    $ref: '#/components/schemas/date'
+                  dateType:
+                    description: Type of the date
+                    type: string
+                    enum:
+                      - birthDate
+                      - divorceDate
+                      - deathDate
+            gender:
+              type: string
+              enum:
+                - male
+                - female
+                - other
+              example: male
+              description: 'Gender of the person'
+            nationality:
+              type: array
+              description: 'Indicates the nationality of the person'
+              items:
+                $ref: '#/components/schemas/country'
+            civilStatus:
+              type: string
+              enum:
+                - unmarried
+                - married
+                - divorced
+                - widowed
+              example: married
+              description: 'Civil status of the individual person'
+            TIN:
+              type: string
+              maxLength: 35
+              example: 123-12-1234
+
+    legalPerson: # "legalPerson" will be used as disciminator
+      allOf:
+        - $ref: '#/components/schemas/personDetails'
+        - type: object
+          required:
+            - organisationName
+            - legalForm
+            - domicilaryCompany
+          properties:
+            organisationName:
+              type: string
+              minLength: 1
+              maxLength: 35
+              description: 'Name by which the organisation is known and which is usually used to identify that organisation'
+              example: Stark Industries
+            legalForm:
+              type: string
+              maxLength: 35
+              description: 'Legal status of the company'
+              example: AG
+            LEI:
+              type: string
+              pattern: '[A-Z0-9]{18,18}[0-9]{2,2}'
+              example: 529900UVM8LC55IFAA52
+              description: Legal entity identifier
+            domicilaryCompany:
+              type: boolean
+              description: 'Indicates whether the company is a domiciliary company'
+              example: FALSE
+
+    personAssociation: # "personAssociation" will be used as disciminator
+      allOf:
+        - $ref: '#/components/schemas/personDetails'
+        - type: object
+          required:
+            - personAssociationName
+          properties:
+            personAssociationName:
+              type: string
+              minLength: 1
+              maxLength: 70
+              description: 'Name of the association object'
+              example: Anthony Stark a/o Piper Potts
+            personAssociationType:
+              type: string
+              enum:
+                - compteJoint
+                - jointHeirs
+                - unregisteredPartnership
+                - limitedPartnership
+                - collectiveProprietorship
+              description: 'Type of association'
+              example: compteJoint
+
+    trust: # "trust" will be used as disciminator
+      allOf:
+        - $ref: '#/components/schemas/personDetails'
+        - type: object
+          required:
+            - trustName
+            - trustType
+          properties:
+            trustName:
+              type: string
+              minLength: 1
+              maxLength: 70
+              description: 'Name of the trust object'
+              example: Spiderman Trust
+            trustType:
+              type: string
+              enum:
+                - simpleTrust
+                - complexTrust
+                - grantorTrust
+              description: 'Type of trust'
+              example: simpleTrust
+
+    soleProprietorship: # "soleProprietorship" will be used as disciminator
+      allOf:
+        - $ref: '#/components/schemas/personDetails'
+        - type: object
+          required:
+            - soleProprietorshipName
+          properties:
+            soleProprietorshipName:
+              type: string
+              minLength: 1
+              maxLength: 70
+              description: 'Name of the sole proprietorship object'
+              example: Anthony Stark
 
     kyc:
       type: object
       properties:
-        nonFinanicalSituation:
+        nonFinancialSituation:
           type: object
           properties:
             profession:
@@ -785,7 +780,7 @@ components:
               example: Stark Industries
             educationLevel:
               type: string
-              maxLength: 35
+              maxLength: 70
               description: 'Highest level of education reached by the individual person'
               example: University
             function:
@@ -804,7 +799,7 @@ components:
               example: employed
             riskDomicile:
               $ref: '#/components/schemas/country'
-            reasonForDomicilaryCompany:
+            reasonForDomiciliaryCompany:
               type: string
               maxLength: 35
               description: 'Describes the reason for domiciliary company'
@@ -878,9 +873,10 @@ components:
                 currency:
                   $ref: '#/components/schemas/currency'
                 amount:
-                  type: number
-                  format: float
-                  example: 100000
+                  type: string
+                  pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+                  maxLength: 22
+                  example: "100000"
             sourceOfIncome:
               type: string
               description: 'Specifies the origin of the income'
@@ -899,9 +895,10 @@ components:
                 currency:
                   $ref: '#/components/schemas/currency'
                 amount:
-                  type: number
-                  format: float
-                  example: 200000
+                  type: string
+                  pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+                  maxLength: 22
+                  example: "200000"
             monetaryWealth:
               type: object
               description: 'Annual wealth of the individual person or share capital value of the legal entity '
@@ -909,9 +906,10 @@ components:
                 currency:
                   $ref: '#/components/schemas/currency'
                 amount:
-                  type: number
-                  format: float
-                  example: 1000000
+                  type: string
+                  pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+                  maxLength: 22
+                  example: "1000000"
             sourceOfWealth:
               type: array
               description: Indicates the sources of wealth of the customer.
@@ -942,9 +940,10 @@ components:
                   currency:
                     $ref: '#/components/schemas/currency'
                   amount:
-                    type: number
-                    format: float
-                    example: 25000000
+                    type: string
+                    pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+                    maxLength: 22
+                    example: "25000000"
                   dateOfReceipt:
                     $ref: '#/components/schemas/date'
                   originator:
@@ -975,6 +974,14 @@ components:
                 domicilePriorBank:
                   $ref: '#/components/schemas/country'
 
+    customerAndKycResponse:
+      type: object
+      properties:
+        customer:
+         $ref: '#/components/schemas/customer'
+        kyc:
+         $ref: '#/components/schemas/kyc'
+    
     contactDetails:
       type: object
       required:
@@ -1157,12 +1164,12 @@ components:
                     type: string
                     maxLength: 35
                     description: Number that identifies the position of the building on a street
-                    example: 10880
+                    example: "10880"
                 postBox:
                     type: string
                     maxLength: 35
                     description: Post box number of the addressee within the residential or company building
-                    example: 12
+                    example: "12"
                 addressSuffix:
                     type: string
                     maxLength: 35
@@ -1186,6 +1193,14 @@ components:
                 country:
                     $ref: '#/components/schemas/country'
 
+    addressIdentificationResponse:
+      type: object
+      properties:
+        addressIdentification:
+          type: string
+          example: 7353
+          description: ID of the newly created address object.
+          
     country:
       type: string
       pattern: '[A-Z]{2}'
