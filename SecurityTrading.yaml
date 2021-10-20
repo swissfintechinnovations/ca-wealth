@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  version: 1.1.0
-  title: Security Trading API
-  description: 'This API is used to place orders and check on the order status. <p> This API was developed under the umbrella of the OpenWealth Association by the member companies of this association. For detailed information about this non-profit organization please visit https://openwealth.ch <p> The present release was approved by the Common API working group of the SFTI trade association in March 2021. Hence, the present specification conforms to the implementation guidelines of the Common API Initiative of SFTI.'
+  version: 1.2.0
+  title: Order Placement
+  description: 'This API is used to place orders and check on the order status.'
   contact:
     email: wealth@common-api.ch
   license:
@@ -11,7 +11,7 @@ info:
 
 servers:
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/OpenWealthAPI/SecurityTrading/1.1.0
+    url: https://virtserver.swaggerhub.com/OpenWealthAPI/SecurityTrading/1.2.0
 
     
 paths:
@@ -23,7 +23,7 @@ paths:
       description: Posts a new order.
       operationId: postOrder
       tags:
-        - Order placement
+        - orderplacement
 
       requestBody:
         content:
@@ -35,10 +35,7 @@ paths:
           description: Order placed successfully.
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-                description: Client defined ID from request to correlates HTTP requests between a client and server.
-                example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -57,10 +54,10 @@ paths:
           $ref: '#/components/responses/standard503'
     get:
       summary: Returns a list of open security orders.
-      description: Returns all open orders to which the user of the API has access to.
+      description: Returns all open orders to which the user of the API has access to. Paging is done based on the completeOrder object, i.e. if limit is set to 1, then 1 completeOrder will be returned per page.
       operationId: getOrders
       tags:
-        - Order status
+        - orderstatus
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
@@ -69,24 +66,15 @@ paths:
           description: Order list.
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-                description: Client defined ID from request to correlates HTTP requests between a client and server.
-                example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+              $ref: '#/components/headers/X-Correlation-ID'
+            nextCursor:
+              $ref: '#/components/headers/nextCursor'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  allOf:
-                    - type: object
-                      properties:
-                        transactionIdentification:
-                            type: string
-                            description: Unique and unambiguous identifier for the order execution, as assigned by the confirming party.
-                            example: '1231234'
-                    - $ref: '#/components/schemas/order'
-                    - $ref: '#/components/schemas/orderState'
+                  $ref: '#/components/schemas/completeOrder'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -118,30 +106,17 @@ paths:
       description: Returns a specific security order.
       operationId: getOrderByOrderId
       tags:
-        - Order status
+        - orderstatus
       responses:
         '200':
           description: Order list.
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-                description: Client defined ID from request to correlates HTTP requests between a client and server.
-                example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+              $ref: '#/components/headers/X-Correlation-ID'
           content:
             application/json:
               schema:
-                allOf:
-                    - type: object
-                      required:
-                        - transactionIdentification
-                      properties:
-                        transactionIdentification:
-                            type: string
-                            description: Unique and unambiguous identifier for the order execution, as assigned by the confirming party.
-                            example: '1231234'
-                    - $ref: '#/components/schemas/order'
-                    - $ref: '#/components/schemas/orderState'
+                $ref: '#/components/schemas/completeOrder'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -164,16 +139,13 @@ paths:
       description: Returns a specific security order.
       operationId: deleteOrderByOrderId
       tags:
-        - Order placement
+        - orderplacement
       responses:
         '200': 
           description: Order successfully cancelled.
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-                description: Client defined ID from request to correlates HTTP requests between a client and server.
-                example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -223,6 +195,25 @@ components:
       required: true
       schema:
         type: string
+
+  ###############
+  # Headers     #
+  ###############
+
+  headers:
+  
+    X-Correlation-ID:
+      description: Client defined ID from request to correlates HTTP requests between a client and server.
+      schema:
+        type: string
+        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+    nextCursor:
+      description: An opaque string value, or an empty string if there are no more results. 
+      required: false
+      schema:
+        type: string
+        
+        
 
   ######################
   # Schemas
@@ -290,8 +281,10 @@ components:
           type: object
           properties:
             amount:
-              type: number
-              example: 300
+              type: string
+              pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+              maxLength: 22
+              example: "300"
             currency:
               $ref: '#/components/schemas/currency'
             type: 
@@ -317,13 +310,17 @@ components:
           - stop
           - stopLimit
         limitPrice:
-          type: number
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
           description: Limit price per unit of quantity (e.g. per share)
-          example: 12.50
+          example: "12.50"
         stopPrice:
-          type: number
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
           description: Stop price per unit of quantity (e.g. per share)
-          example: 10.05
+          example: "10.05"
         timeInForce:
           type: string
           description: Specifies how long the order remains in effect. Absence of this field is interpreted as DAY.
@@ -351,8 +348,10 @@ components:
           type: object
           properties:
             amount:
-              type: number
-              example: 300
+              type: string
+              pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+              maxLength: 22
+              example: "300"
             currency:
               $ref: '#/components/schemas/currency'
             type: 
@@ -432,9 +431,11 @@ components:
           description: Identification of unabiguous identifier of the individual allocation of the bulk order. Corresponds with the transactionIdentification.
           example: '321321321'
         amount:
-          type: number
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
           description: Quantity to be allocated to specific safekeeping account
-          example: 100
+          example: "100"
         physicalDeliveryIndicator:
           type: boolean
           description: Indicates whether the financial instrument is to be physically delivered.
@@ -484,29 +485,41 @@ components:
               description: Cancelled reason expressed as a proprietary code.
               maxLength: 35
         previouslyExecutedQuantity:
-          type: number
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
           description: Total quantity (e.g. number of shares) filled.
-          example: 100
+          example: "100"
         remainingQuantity:
-          type: number
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
           description: Quantity open for further execution. If the processingStatus is Canceled, DoneForTheDay, Expired, Calculated, or Rejected (in which case the order is no longer active) then remainingQuantity could be 0, otherwise remainingQuantity = OrderQuantity - previouslyExecutedQuantity.
-          example: 20
+          example: "20"
         averagePrice:
-          type: number
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
           description: Calculated average price of all fills on this order.
-          example: 17.85
+          example: "17.85"
         dayOrderQuantity:
-          type: number
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
           description: For GoodTill(GT) orders the orderQuantity less all quantity (adjusted for stock splits) that traded on previous days. DayOrderQuantity = OrderQuantity - (previouslyExecutedQuantity - dayPreviouslyExecutedQuantity).
-          example: 15
+          example: "15"
         dayPreviouslyExecutedQuantity:
-          type: number
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
           description:  For GT orders the quantity on a GT order that has traded today.
-          example: 5
+          example: "5"
         dayAveragePrice:
-          type: number
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          maxLength: 22
           description: For GT orders the average price for quantity on a GT order that has traded today.
-          example: 17.8
+          example: "17.8"
         billingDetail:
           type: object
           properties:
@@ -531,10 +544,11 @@ components:
                     - netSettlementAmount
                     - netBillingAmount
                   amount:
-                    type: number
-                    format: float
+                    type: string
+                    pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+                    maxLength: 22
+                    example: "1264"
                     description: Billing value
-                    example: 1264
                   currency:
                     $ref: '#/components/schemas/currency' 
         dateList:
@@ -552,6 +566,20 @@ components:
                 - transactionDate
                 - bookingDate
                 - valueDate
+    
+    completeOrder:
+      type: object
+      required: 
+        - transactionIdentification
+      properties:
+          transactionIdentification:
+            type: string
+            description: Unique and unambiguous identifier for the order execution, as assigned by the confirming party.
+            example: '1231234'
+          order:
+            $ref: '#/components/schemas/order'
+          orderState:
+            $ref: '#/components/schemas/orderState'
     
     currency:
       description: ISO 4217 code
