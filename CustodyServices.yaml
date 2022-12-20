@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 2.0.2
+  version: 2.0.3
   title: Custody Services
   description: 'This API is part of the OpenWealth APIs for the connectivity between custody banks and WealthTechs (e.g. Portfolio Management Systems). This API allows the user to receive data from custody banks regarding accounts and positions. The API is designed to be used for either update end of day data batches or single near-realtime account/position information. Furthermore, this API allows the user to receive data from custody banks regarding transactions. In this version (2.0) only transactions which include effective cash or securities movements are in scope and corporate actions without any cash impact are delivered only on a informative basis.'
   contact:
@@ -10,11 +10,11 @@ info:
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/OpenWealthAPI/Custody_Services/2.0.2
+    url: https://virtserver.swaggerhub.com/OpenWealthAPI/Custody_Services/2.0.3
 
     
 paths:
-  /customerAccounts:
+  /customers:
     parameters:
       - $ref: '#/components/parameters/cursor'
       - $ref: '#/components/parameters/limit'
@@ -23,9 +23,9 @@ paths:
       summary: Returns all customers and respective accounts accessible for the logged in user.
       description: This endpoint returns a highlevel list of customers and the respective accounts accessible for the logged in user. Paging is done based on the customerOverview object, i.e. if limit is set to 1, then 1 customerOverview will be returned per page.
 
-      operationId: getCustomerAccounts
+      operationId: getCustomers
       tags:
-        - customeraccount
+        - customers
       responses:
         '200':
           description: Returns a list with all customers and the respective accounts.
@@ -39,8 +39,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/customerOverview'
-                    
+                  $ref: '#/components/schemas/customer'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -58,16 +57,16 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
  
-  /customerAccounts/{customerId}:
+  /customers/{customerId}:
     parameters:
       - $ref: '#/components/parameters/customerIdParam'
       - $ref: '#/components/parameters/correlation_in_header'
     get:
       summary: Returns a specific customers and respective accounts accessible for the logged in user.
-      description: This endpoint returns a highlevel list of a customer and the respective accounts accessible for the logged in user. 
-      operationId: getCustomerAccountsByCustomerId
+      description: This endpoint returns a single customer and the list of the customer's respective accounts accessible for the logged in user. 
+      operationId: getCustomersByCustomerId
       tags:
-        - customeraccount
+        - customers
       responses:
         '200':
           description: Returns a the specified customers and the respective accounts.
@@ -77,7 +76,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerOverview'
+                $ref: '#/components/schemas/customer'
                     
         '400':
           $ref: '#/components/responses/standard400'
@@ -96,7 +95,7 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /customers/{customerId}/positions:
+  /customers/{customerId}/customer-position-statement:
     parameters:
       - $ref: '#/components/parameters/customerIdParam'
       - $ref: '#/components/parameters/dateParam'
@@ -106,9 +105,9 @@ paths:
       - $ref: '#/components/parameters/limit'
       - $ref: '#/components/parameters/correlation_in_header'
     get:
-      summary: Returns all positions for a specific customer.
+      summary: Returns a position statement for a specific customer.
       description: Returns all positions (incl. investment cash accounts) for a specific customer. Paging is done based on the account object, i.e. if limit is set to 1, then 1 account will be returned per page.
-      operationId: getPositionsByCustomerId
+      operationId: getCustomerPositionStatementByCustomerId
       tags:
         - positions
       responses:
@@ -122,8 +121,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerAndStatementResponse'
-                
+                $ref: '#/components/schemas/customerPositionStatement'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -141,7 +139,7 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /accounts/{accountId}/positions:
+  /accounts/{accountId}/account-position-statement:
     parameters:
       - $ref: '#/components/parameters/accountIdParam'
       - $ref: '#/components/parameters/dateParam'
@@ -151,9 +149,9 @@ paths:
       - $ref: '#/components/parameters/limit'
       - $ref: '#/components/parameters/correlation_in_header'
     get:
-      summary: Returns the positions for a customer's specific account.
+      summary: Returns the positions statement for a specific account.
       description: Returns all positions for a specific account. Paging is done based on the position object, i.e. if limit is set to 1, then 1 position will be returned per page.
-      operationId: getPositionsByAccountId
+      operationId: getAccountPositionStatementByAccountId
       tags:
         - positions
       responses:
@@ -167,7 +165,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customerAndStatementResponse'
+                $ref: '#/components/schemas/accountPositionStatement'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -185,7 +183,7 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /customers/{customerId}/transactions:
+  /customers/{customerId}/transaction-statement:
     parameters:
       - $ref: '#/components/parameters/customerIdParam'
       - $ref: '#/components/parameters/dateParam'
@@ -195,9 +193,9 @@ paths:
       - $ref: '#/components/parameters/limit'
       - $ref: '#/components/parameters/correlation_in_header'
     get:
-      summary: Returns transactions for a specific customer.
+      summary: Returns a transactions statement for a specific customer.
       description: Returns all transactions for the a specific customer. Paging is done based on the transaction object, i.e. if limit is set to 1, then 1 transaction will be returned per page.
-      operationId: getTransactionsByCustomerId
+      operationId: getTransactionStatementByCustomerId
       tags:
         - transactions
       responses:
@@ -211,7 +209,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/transactionAndStatementResponse'
+                $ref: '#/components/schemas/transactionStatement'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -229,7 +227,7 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /accounts/{accountId}/transactions:
+  /accounts/{accountId}/transaction-statement:
     parameters:
       - $ref: '#/components/parameters/accountIdParam'
       - $ref: '#/components/parameters/dateParam'
@@ -241,7 +239,7 @@ paths:
     get:
       summary: Returns the transactions a specific account.
       description: Returns the transactions for all positions in a specific account. Paging is done based on the transaction object, i.e. if limit is set to 1, then 1 transaction will be returned per page.
-      operationId: getTransactionsByAccountId
+      operationId: getTransactionStatementByAccountId
       tags:
         - transactions
       responses:
@@ -255,7 +253,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/transactionAndStatementResponse'
+                $ref: '#/components/schemas/transactionStatement'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -273,7 +271,7 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
   
-  /positions/{positionId}/transactions:
+  /positions/{positionId}/transaction-statement:
     parameters:
       - $ref: '#/components/parameters/positionIdParam'
       - $ref: '#/components/parameters/dateParam'
@@ -285,7 +283,7 @@ paths:
     get:
       summary: Returns the transactions for a specific position.
       description: Returns transactions for a specific position. Paging is done based on the transaction object, i.e. if limit is set to 1, then 1 transaction will be returned per page.
-      operationId: getTransactionsByPositionId
+      operationId: getTransactionStatementByPositionId
       tags:
         - transactions
       responses:
@@ -299,7 +297,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/transactionAndStatementResponse'
+                $ref: '#/components/schemas/transactionStatement'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -330,13 +328,17 @@ components:
       required: true
       schema:
         type: string
-        description: The customer's id
+        minLength: 1
+        maxLength: 35
+        example: 123123456
+        description: Unique and unambiguous identification used by the bank for the customer.
     accountIdParam:
       name: accountId
       in: path
       required: true
       schema:
         type: string
+        maxLength: 35
         description: The customer's account identification, this should NOT be an IBAN.
     dateParam:
       name: date
@@ -364,7 +366,9 @@ components:
       required: true
       schema:
         type: string
-        description: The position's id
+        maxLength: 35
+        description: Identification for the position given by the bank.
+        example: 1234566-12-1
     endOfDayParam:
       name: eodIndicator
       in: query
@@ -458,7 +462,7 @@ components:
           description: Indicates if the data displayed is end-of-day data. If true, the data is end-of-day data. If false and date is today, current (intraday) data will be displayed.
           example: true
           
-    customerOverview:
+    customer:
       type: object
       description: Overview of the customer with the respective accounts
       required: 
@@ -472,6 +476,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/accountInformation'
+            
+        
 
     customerAccounts:
       type: object
@@ -494,7 +500,7 @@ components:
       example: 123123456
       description: Unique and unambiguous identification used by the bank for the customer.
     
-    customerAndStatementResponse:
+    customerPositionStatement:
       type: object
       properties:
         statement:
@@ -502,6 +508,14 @@ components:
         customer:
           $ref: '#/components/schemas/customerAccounts'
           
+    accountPositionStatement:
+      type: object
+      properties:
+        statement:
+          $ref: '#/components/schemas/statement'
+        account:
+          $ref: '#/components/schemas/account'
+    
     account:
       type: object
       required: 
@@ -1371,7 +1385,7 @@ components:
             - dealPrice
             - costPrice
     
-    transactionAndStatementResponse:
+    transactionStatement:
       type: object
       properties:
           statement:
