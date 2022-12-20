@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 2.0.6
+  version: 2.0.7
   title: Order Placement API
   description: 'This API is used to place orders and check on the order status.'
   contact:
@@ -12,7 +12,7 @@ info:
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/OpenWealthAPI/OrderPlacement/2.0.6
+    url: https://virtserver.swaggerhub.com/OpenWealthAPI/OrderPlacement/2.0.7
 
 
     
@@ -30,7 +30,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/order'
+              $ref: '#/components/schemas/requestedOrder'
       responses:
         '202':
           description: Order accepted for further processing.
@@ -40,7 +40,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/completeOrder'
+                $ref: '#/components/schemas/order'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -63,7 +63,7 @@ paths:
           $ref: '#/components/responses/standard504'
     get:
       summary: Returns a list of open security orders.
-      description: Returns all open orders to which the user of the API has access to. Paging is done based on the completeOrder object, i.e. if limit is set to 1, then 1 completeOrder will be returned per page.
+      description: Returns all open orders to which the user of the API has access to. Paging is done based on the order object, i.e. if limit is set to 1, then 1 order will be returned per page.
       operationId: getOrders
       tags:
         - orderstatus
@@ -83,7 +83,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/completeOrder'
+                  $ref: '#/components/schemas/order'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -113,6 +113,7 @@ paths:
         description: The security order id. This Id corresponds with the clientOrderIdentification.
         schema:
           type: string
+          maxLength: 20
       - $ref: '#/components/parameters/correlation_in_header'
     get:
       summary: Returns a single security order.
@@ -129,7 +130,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/completeOrder'
+                $ref: '#/components/schemas/order'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -166,7 +167,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/completeOrder'
+                $ref: '#/components/schemas/order'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -187,7 +188,50 @@ paths:
           $ref: '#/components/responses/standard503'
         '504':
           $ref: '#/components/responses/standard504'
-          
+  
+  /accountaccesses:
+    parameters:
+     - $ref: '#/components/parameters/correlation_in_header'
+    get:
+      summary: Returns list of accounts the requestor has access to.
+      description: Returns list of accounts the requestor has access to with the type of access the requestor has. Paging is done based on the accountaccess object, i.e. if limit is set to 1, then 1 accountaccess object will be returned per page.
+      operationId: getAccountAccesses
+      tags:
+      - accountaccess
+      parameters:
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200': 
+          description: Returns list of accounts the requestor has access to.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountAccessList'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+      
 components:
 
   ###############
@@ -268,6 +312,27 @@ components:
           description: List of affected cashAccount and safekeepingAccount
           items:
             $ref: '#/components/schemas/account'
+    
+    accountAccess:
+      type: object
+      required: 
+      - account
+      - accessType
+      properties:
+        account:
+          $ref: '#/components/schemas/account'
+        accessType:
+          type: string
+          description: Indicates what type of access the requestor has for the specified account.
+          enum:
+          - read
+          - write
+    
+    accountAccessList:
+      type: array
+      description: List of accountAccess objects
+      items:
+        $ref: '#/components/schemas/accountAccess'
     
     accruedInterests:
       type: object
@@ -522,7 +587,7 @@ components:
 
 
           
-    completeOrder:
+    order:
       required:
       - extendedOrder
       - orderState
@@ -708,7 +773,7 @@ components:
               - otherProprietaryIdentification
 
             
-    order:
+    requestedOrder:
       required:
       - clientOrderIdentification
       - bulkOrderDetails
