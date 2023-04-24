@@ -1,13 +1,13 @@
 openapi: 3.0.0
 info:
   version: 2.0.5
-  title: 'Customer Management API'
+  title: Customer Management API
   description: This API is part of the OpenWealth APIs for the connectivity between custody banks and WealthTechs (e.g. Portfolio Management Systems / CRMs). It facilitates the connection of CRMs to custody banks to automate customer onboarding and lifecycle management (Static Data, KYC & Documents). It enables the user to create, modify and consume customer data at/from custody banks. This version of the API is focused solely on natural persons. The management of companies, complex structures as well as products is currently not part of the scope of this API version.
   contact:
     email: openwealth@synpulse.com
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
@@ -1314,7 +1314,7 @@ components:
           items:
             $ref: '#/components/schemas/kyc'
 
-    naturalPerson: # "naturalPerson" will be used as discriminator
+    naturalPerson:  # "naturalPerson" will be used as discriminator
       type: object
       allOf:
         - $ref: '#/components/schemas/personBase'
@@ -1384,7 +1384,7 @@ components:
           # description: Country where person was born
           $ref: '#/components/schemas/country'
 
-    legalPerson: # "legalPerson" will be used as discriminator
+    legalPerson:  # "legalPerson" will be used as discriminator
       type: object
       allOf:
         - $ref: '#/components/schemas/personBase'
@@ -1416,7 +1416,7 @@ components:
           description: 'Indicates whether the company is a domiciliary company'
           example: FALSE
 
-    personAssociation: # "personAssociation" will be used as discriminator
+    personAssociation:  # "personAssociation" will be used as discriminator
       type: object
       allOf:
         - $ref: '#/components/schemas/personBase'
@@ -1438,7 +1438,7 @@ components:
             - unregisteredPartnership
             - limitedPartnership
             - collectiveProprietorship
-          description: 'Type of association'
+          description: Type of association
           example: compteJoint
 
     person2personRelation:
@@ -1836,7 +1836,7 @@ components:
           type: string
           maxLength: 35
           description: Number that identifies the position of the building on a street
-          example: '118'
+          example: 118
         buildingName:
           type: string
           maxLength: 35
@@ -1846,12 +1846,12 @@ components:
           type: string
           maxLength: 35
           description: Floor or story within a building
-          example: '15'
+          example: 15
         postBox:
           type: string
           maxLength: 35
           description: Numbered box in a post office, assigned to a person or organisation, where letters are kept until called for.
-          example: 'PO Box 12'
+          example: PO Box 12
         room:
           type: string
           maxLength: 35
@@ -2008,7 +2008,7 @@ components:
           type: string
           maxLength: 35
           description: '% of total asset allocation'
-          example: '12%'
+          example: 12%
         furtherDetailsAsset:
           $ref: '#/components/schemas/furtherDetailsAsset'
 
@@ -2319,7 +2319,7 @@ components:
           description: Original source of assets
           example: saleOfCompany
 
-    incomeFromEmployment: # "incomeFromEmployment" will be used as discriminator
+    incomeFromEmployment:  # "incomeFromEmployment" will be used as discriminator
       allOf:
         - $ref: '#/components/schemas/sourceBase'
       required:
@@ -2351,7 +2351,7 @@ components:
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
-    incomeFromBusinessOwnership: # "incomeFromBusinessOwnership" will be used as discriminator
+    incomeFromBusinessOwnership:  # "incomeFromBusinessOwnership" will be used as discriminator
       allOf:
         - $ref: '#/components/schemas/sourceBase'
       type: object
@@ -2389,7 +2389,7 @@ components:
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
-    saleOfCompany: # "saleOfCompany" will be used as discriminator
+    saleOfCompany:  # "saleOfCompany" will be used as discriminator
       allOf:
         - $ref: '#/components/schemas/sourceBase'
       required:
@@ -2439,7 +2439,7 @@ components:
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
-    saleOfNonFinancialAssets: # "saleOfNonFinancialAssets" will be used as discriminator
+    saleOfNonFinancialAssets:  # "saleOfNonFinancialAssets" will be used as discriminator
       allOf:
         - $ref: '#/components/schemas/sourceBase'
       required:
@@ -2475,7 +2475,7 @@ components:
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
-    lifeInsurance: # "lifeInsurance" will be used as discriminator
+    lifeInsurance:  # "lifeInsurance" will be used as discriminator
       allOf:
         - $ref: '#/components/schemas/sourceBase'
       properties:
@@ -2495,7 +2495,7 @@ components:
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
-    pensionAssets: # "pensionAssets" will be used as discriminator
+    pensionAssets:  # "pensionAssets" will be used as discriminator
       allOf:
         - $ref: '#/components/schemas/sourceBase'
       properties:
@@ -2521,7 +2521,7 @@ components:
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
-    inheritance: #'inheritance' will be used as discriminator
+    inheritance:  # 'inheritance' will be used as discriminator
       allOf:
         - $ref: '#/components/schemas/sourceBase'
       required:
@@ -2552,7 +2552,7 @@ components:
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
-    gift: #'gift' will be used as discriminator
+    gift:  # 'gift' will be used as discriminator
       allOf:
         - $ref: '#/components/schemas/sourceBase'
       required:
@@ -2583,7 +2583,7 @@ components:
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
-    loan: #'loan' will be used as discriminator
+    loan:  # 'loan' will be used as discriminator
       allOf:
         - $ref: '#/components/schemas/sourceBase'
       required:
@@ -2619,7 +2619,7 @@ components:
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
-    saleOfFinancialAssets: # "saleOfFinancialAssets" will be used as discriminator
+    saleOfFinancialAssets:  # "saleOfFinancialAssets" will be used as discriminator
       allOf:
         - $ref: '#/components/schemas/sourceBase'
       required:
@@ -2655,7 +2655,7 @@ components:
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
-    capitalGains: # "capitalGains" will be used as discriminator
+    capitalGains:  # "capitalGains" will be used as discriminator
       allOf:
         - $ref: '#/components/schemas/sourceBase'
       required:
@@ -2683,7 +2683,7 @@ components:
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
-    otherSource: # "other" will be used as discriminator
+    otherSource:  # "other" will be used as discriminator
       allOf:
         - $ref: '#/components/schemas/sourceBase'
       required:
@@ -3095,7 +3095,7 @@ components:
     addressName:
       type: string
       description: Name of the address object
-      example: 'Mustergasse 15, 8001 Zürich, Schweiz'
+      example: Mustergasse 15, 8001 Zürich, Schweiz
 
     isDomicile:
       type: boolean
@@ -3139,7 +3139,7 @@ components:
       type: string
       maxLength: 2500
       description: Free text field to provide additional information
-      example: 'This is additional information.'
+      example: This is additional information.
 
     originsOfAssetsList:
       type: array
@@ -3191,7 +3191,7 @@ components:
       type: string
       maxLength: 70
       description: Period of time e.g. a job was held / a company owned
-      example: '15.05.2011 - 05.02.2020'
+      example: 15.05.2011 - 05.02.2020
 
     ### Pre-Check ###
 
@@ -3285,7 +3285,7 @@ components:
         - /problems/TECHNICAL_ERROR
         - /problems/NOT_IMPLEMENTED
         - /problems/SERVICE_UNAVAILABLE
-      example: '/problems/TECHNICAL_ERROR'
+      example: /problems/TECHNICAL_ERROR
 
   # ---- End Error Response ----
 
@@ -3296,12 +3296,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -3319,12 +3319,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -3342,12 +3342,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -3365,12 +3365,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -3388,12 +3388,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -3411,12 +3411,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -3434,12 +3434,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -3457,12 +3457,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -3480,12 +3480,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -3503,12 +3503,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:

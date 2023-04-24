@@ -2,12 +2,12 @@ openapi: 3.0.0
 info:
   version: 2.0.7
   title: Order Placement API
-  description: 'This API is used to place orders and check on the order status.'
+  description: This API is used to place orders and check on the order status.
   contact:
     email: openwealth@synpulse.com
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
 
 servers:
   # Added by API Auto Mocking Plugin
@@ -510,7 +510,7 @@ components:
         side:
           type: string
           description: Side taken by a party on an order.
-          example: 'buy'
+          example: buy
           enum:
             - buy
             - sell
@@ -553,7 +553,7 @@ components:
         timeInForce:
           type: string
           description: Specifies how long the order remains in effect.
-          example: 'day'
+          example: day
           enum:
             - day
             - goodTillCancel
@@ -601,7 +601,7 @@ components:
       description: ISO 4217 code
       type: string
       pattern: '[A-Z]{3}'
-      example: 'CHF'
+      example: CHF
 
     date:
       type: string
@@ -703,18 +703,18 @@ components:
           description: Currency of the amount to be converted in a currency conversion.
           type: string
           pattern: '[A-Z]{3}'
-          example: 'CHF'
+          example: CHF
         rate:
           type: string
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
-          example: '1.0963'
+          example: 1.0963
           description: Indicates the rate of a fx transaction for one source currency unit to the target currency. E.g. 1GBP=xxxEUR, where the source currency is GBP and the target currency is EUR.
         targetCurrency:
           description: Currency into which an amount is to be converted in a currency conversion.
           type: string
           pattern: '[A-Z]{3}'
-          example: 'CHF'
+          example: CHF
         fxType:
           type: string
           description: Defines, if the indicated fx rate includes (costPrice) or excludes (dealPrice) fees and taxes.
@@ -897,7 +897,7 @@ components:
       pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
       maxLength: 22
       description: The average price for quantity that has traded today.
-      example: '17.8'
+      example: 17.8
 
     orderDate:
       type: object
@@ -988,14 +988,14 @@ components:
         marketDescription:
           type: string
           description: Description of the market when no Market Identification Code is available.
-          example: 'OTC'
+          example: OTC
 
     remainingQuantity:
       type: string
       pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
       maxLength: 22
       description: Quantity open for further execution. If the status is cancelled,  expired, or rejected (in which case the order is no longer active) then remainingQuantity could be 0, otherwise remainingQuantity = orderQuantity - executedQuantity.
-      example: '20'
+      example: 20
 
     statementDateTime:
       type: string
@@ -1039,7 +1039,7 @@ components:
         - /problems/TECHNICAL_ERROR
         - /problems/NOT_IMPLEMENTED
         - /problems/SERVICE_UNAVAILABLE
-      example: '/problems/TECHNICAL_ERROR'
+      example: /problems/TECHNICAL_ERROR
     # ---- End Error Response
 
   # ---- Responses - Standard Errors Common Data Model v1.2.2----
@@ -1049,12 +1049,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -1072,12 +1072,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -1095,12 +1095,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -1118,12 +1118,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -1141,12 +1141,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -1164,12 +1164,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -1187,12 +1187,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -1210,12 +1210,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -1233,12 +1233,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
@@ -1256,12 +1256,12 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
             example: application/problem+json
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
             example: en
         X-Correlation-ID:
           schema:
