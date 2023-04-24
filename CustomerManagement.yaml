@@ -1144,7 +1144,7 @@ components:
   ######################
 
   schemas:
-    ###CUSTOMER###
+    ### CUSTOMER ###
 
     customer:
       type: object
@@ -1245,7 +1245,7 @@ components:
         permanentId:
           $ref: '#/components/schemas/permanentId'
 
-    ###PERSON###
+    ### PERSON ###
 
     person:
       type: object
@@ -1381,7 +1381,7 @@ components:
           items:
             $ref: '#/components/schemas/tin'
         countryOfBirth:
-          #description: Country where person was born
+          # description: Country where person was born
           $ref: '#/components/schemas/country'
 
     legalPerson: # "legalPerson" will be used as discriminator
@@ -1489,7 +1489,7 @@ components:
             $ref: '#/components/schemas/relation'
         personDetails:
           $ref: '#/components/schemas/personDetails'
-          #description: Link already existing person objects to this customer (e.g. an already existing External Asset Manager to a new customer).
+          # description: Link already existing person objects to this customer (e.g. an already existing External Asset Manager to a new customer).
 
     relation:
       type: object
@@ -1536,7 +1536,7 @@ components:
         externalReference:
           $ref: '#/components/schemas/externalReference'
 
-    ###contact###
+    ### contact ###
 
     contact:
       type: object
@@ -1572,7 +1572,7 @@ components:
           type: string
           maxLength: 70
           description: Content of the contact detail, e.g. phone number, email-address, URL
-          example: '0041998887766'
+          example: 0041998887766
         priority:
           type: string
           maxLength: 70
@@ -1597,7 +1597,7 @@ components:
         contactId:
           $ref: '#/components/schemas/contactId'
 
-    ###Documents###
+    ### Documents ###
 
     document:
       type: object
@@ -1672,14 +1672,14 @@ components:
           $ref: '#/components/schemas/date'
         languageCode:
           $ref: '#/components/schemas/language'
-          #language of document e.g. EN
+          # language of document e.g. EN
         mimeType:
           type: string
           description: A media type (also known as a Multipurpose Internet Mail Extensions or MIME type) indicates the nature and format of a document, file, or assortment of bytes.
           example: image/png
         fileName:
           $ref: '#/components/schemas/name'
-          #example: Name of the specific file e.g. E-banking Contract_Max Muster.pdf
+          # example: Name of the specific file e.g. E-banking Contract_Max Muster.pdf
         digitalSignature:
           $ref: '#/components/schemas/digitalSignature'
 
@@ -1720,7 +1720,7 @@ components:
           type: string
           description: external scheme
 
-    ###Address###
+    ### Address ###
 
     address:
       type: object
@@ -1740,7 +1740,7 @@ components:
         isDomicile:
           $ref: '#/components/schemas/isDomicile'
         language:
-          #description: Language of the address object
+          # description: Language of the address object
           $ref: '#/components/schemas/language'
         isMailingAddress:
           $ref: '#/components/schemas/isMailingAddress'
@@ -1861,7 +1861,7 @@ components:
           type: string
           maxLength: 35
           description: Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail
-          example: '8001'
+          example: 8001
         townName:
           type: string
           maxLength: 35
@@ -1897,9 +1897,9 @@ components:
       maxLength: 35
       readOnly: True
       description: Unique address ID assigned by the custody bank
-      example: '12345678'
+      example: 12345678
 
-    ###KYC###
+    ### KYC ###
 
     kyc:
       type: object
@@ -1922,7 +1922,7 @@ components:
           example: Investments, Payments and asset management by EAM
         additionalInformationRelationship:
           $ref: '#/components/schemas/additionalInformation'
-          #description: Additional information on purpose of relationship.
+          # description: Additional information on purpose of relationship.
         soleBeneficialOwner:
           type: boolean
           description: Is the person the sole beneficial owner of this customer relationship?
@@ -1958,7 +1958,7 @@ components:
         furtherDetails:
           $ref: '#/components/schemas/furtherDetails'
 
-    ###objects - KYC###
+    ### objects - KYC###
 
     totalWealth:
       type: object
@@ -1975,7 +1975,7 @@ components:
           $ref: '#/components/schemas/year'
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
-          #description: 'Description of the most important milestones/economic activities; which form the basis for the assets of the customer'
+          # description: 'Description of the most important milestones/economic activities; which form the basis for the assets of the customer'
         assetAllocationList:
           type: array
           description: Asset Allocation of customer
@@ -2141,28 +2141,28 @@ components:
       properties:
         amountExpectedInflows:
           $ref: '#/components/schemas/amount'
-          #description: Expected amount of fund inflows in the next three months in customer reference currency
+          # description: Expected amount of fund inflows in the next three months in customer reference currency
         currencyExpectedInflows:
           $ref: '#/components/schemas/currency'
-          #description: Customer reference currency of expected fund inflows
+          # description: Customer reference currency of expected fund inflows
         amountPlannedTotalAssets:
           $ref: '#/components/schemas/amount'
-          #description: Planned/expected amount of total assets in the next 12 months in customer reference currency
+          # description: Planned/expected amount of total assets in the next 12 months in customer reference currency
         currencyPlannedTotalAssets:
           $ref: '#/components/schemas/currency'
-          #description: Customer reference currency of expected amount of total assets in the next 12 months
+          # description: Customer reference currency of expected amount of total assets in the next 12 months
         amountExpectedTurnover:
-          #description: 'Expected fund flows per year: Expected amount of account turnover (incoming money/outgoing money per year without initial deposit) in customer reference currency.'
+          # description: 'Expected fund flows per year: Expected amount of account turnover (incoming money/outgoing money per year without initial deposit) in customer reference currency.'
           $ref: '#/components/schemas/amount'
         currencyExpectedTurnover:
           $ref: '#/components/schemas/currency'
-          #description: Customer reference currency of expected fund flows per year
+          # description: Customer reference currency of expected fund flows per year
         numberOfInflows:
           $ref: '#/components/schemas/number'
-          #description: Number of expected annual inflows
+          # description: Number of expected annual inflows
         numberOfOutflows:
           $ref: '#/components/schemas/number'
-          #description: Number of expected annual outflows
+          # description: Number of expected annual outflows
         recurringCounterpartyList:
           type: array
           items:
@@ -2274,10 +2274,10 @@ components:
           $ref: '#/components/schemas/originsOfAssetsList'
         nameOfBank:
           $ref: '#/components/schemas/name'
-          #Name of the bank of the counterparty
+          # Name of the bank of the counterparty
         domicileOfBank:
           $ref: '#/components/schemas/country'
-          #Domicile of the bank of the counterparty
+          # Domicile of the bank of the counterparty
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
@@ -2328,10 +2328,10 @@ components:
       properties:
         companyName:
           $ref: '#/components/schemas/name'
-          #description: Name of the company the income/savings came from
+          # description: Name of the company the income/savings came from
         companyDomicile:
           $ref: '#/components/schemas/country'
-          #description: Domicile of the company e.g. CH
+          # description: Domicile of the company e.g. CH
         companyBusinessActivity:
           $ref: '#/components/schemas/companyBusinessActivity'
         companyNumberOfEmployees:
@@ -2360,10 +2360,10 @@ components:
       properties:
         companyName:
           $ref: '#/components/schemas/name'
-          #description: Name of the company
+          # description: Name of the company
         companyDomicile:
           $ref: '#/components/schemas/country'
-          #description: Domicile of the company e.g. CH
+          # description: Domicile of the company e.g. CH
         companyBusinessActivity:
           $ref: '#/components/schemas/companyBusinessActivity'
         companyNumberOfEmployees:
@@ -2397,10 +2397,10 @@ components:
       properties:
         companyName:
           $ref: '#/components/schemas/name'
-          #description: Name of the company which was sold
+          # description: Name of the company which was sold
         companyDomicile:
           $ref: '#/components/schemas/country'
-          #description: Domicile of the company e.g. CH
+          # description: Domicile of the company e.g. CH
         companyBusinessActivity:
           $ref: '#/components/schemas/companyBusinessActivity'
         companyNumberOfEmployees:
@@ -2423,7 +2423,7 @@ components:
           $ref: '#/components/schemas/namesOfOtherShareholders'
         dateOfSale:
           $ref: '#/components/schemas/date'
-          #description: Date of sale of company e.g 05.12.2009
+          # description: Date of sale of company e.g 05.12.2009
         buyer:
           type: string
           maxLength: 250
@@ -2452,16 +2452,16 @@ components:
           example: House in Davos with 5 rooms and 2 bathrooms.
         dateOfAcquisition:
           $ref: '#/components/schemas/date'
-          #description: Date when the asset was bought
+          # description: Date when the asset was bought
         initialValue:
           $ref: '#/components/schemas/amount'
-          #description: Amount/Value of the asset when it was initially acquired e.g. 1'250'000
+          # description: Amount/Value of the asset when it was initially acquired e.g. 1'250'000
         currency:
           $ref: '#/components/schemas/currency'
-          #description: Currency the initial asset was acquired in e.g. CHF
+          # description: Currency the initial asset was acquired in e.g. CHF
         dateOfSale:
           $ref: '#/components/schemas/date'
-          #description: Date of sale of asset e.g 05.12.2009
+          # description: Date of sale of asset e.g 05.12.2009
         buyer:
           type: string
           maxLength: 250
@@ -2491,7 +2491,7 @@ components:
           example: Swiss Insurance Company
         dateOfReception:
           $ref: '#/components/schemas/date'
-          #description: Date when the life insurance was received.
+          # description: Date when the life insurance was received.
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
@@ -2511,13 +2511,13 @@ components:
           example: BVK
         dateOfRetirement:
           $ref: '#/components/schemas/date'
-          #description: Date of retirement.
+          # description: Date of retirement.
         lastEmployer:
           $ref: '#/components/schemas/name'
-          #description: Name of the last employer
+          # description: Name of the last employer
         dateOfReception:
           $ref: '#/components/schemas/date'
-          #description: Date when the pension assets were received.
+          # description: Date when the pension assets were received.
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
@@ -2548,7 +2548,7 @@ components:
           example: Cash, Stocks and a property in Davos
         dateOfReception:
           $ref: '#/components/schemas/date'
-          #description: Date when the inheritance was received
+          # description: Date when the inheritance was received
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
@@ -2579,7 +2579,7 @@ components:
           example: Cash
         dateOfReception:
           $ref: '#/components/schemas/date'
-          #description: Date when the gift was received
+          # description: Date when the gift was received
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
@@ -2610,7 +2610,7 @@ components:
           example: Cash
         dateOfReception:
           $ref: '#/components/schemas/date'
-          #description: Date when the gift was received
+          # description: Date when the gift was received
         purposeOfLoan:
           type: string
           maxLength: 250
@@ -2637,7 +2637,7 @@ components:
           example: Bitcoins were bought in 2014 with savings from employment
         dateOfAcquisition:
           $ref: '#/components/schemas/date'
-          #description: Date when the property/asset was bought
+          # description: Date when the property/asset was bought
         nameBankOrBroker:
           type: string
           maxLength: 35
@@ -2645,13 +2645,13 @@ components:
           example: Coinbase
         initialValue:
           $ref: '#/components/schemas/amount'
-          #description: Amount/Value of the asset/property when it was initially acquired e.g. 1'250'000
+          # description: Amount/Value of the asset/property when it was initially acquired e.g. 1'250'000
         currency:
           $ref: '#/components/schemas/currency'
-          #description: Currency the initial asset was acquired in e.g. CHF
+          # description: Currency the initial asset was acquired in e.g. CHF
         dateOfSale:
           $ref: '#/components/schemas/date'
-          #description: Date of sale of property/asset e.g 05.12.2009
+          # description: Date of sale of property/asset e.g 05.12.2009
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
@@ -2673,13 +2673,13 @@ components:
           example: Bitcoins were bought in 2014 with savings from employment
         dateOfAcquisition:
           $ref: '#/components/schemas/date'
-          #description: Date when the asset was bought
+          # description: Date when the asset was bought
         initialValue:
           $ref: '#/components/schemas/amount'
-          #description: Amount/Value of the asset when it was initially acquired e.g. 1'250'000
+          # description: Amount/Value of the asset when it was initially acquired e.g. 1'250'000
         currency:
           $ref: '#/components/schemas/currency'
-          #description: Currency the initial asset was acquired in e.g. CHF
+          # description: Currency the initial asset was acquired in e.g. CHF
         additionalInformation:
           $ref: '#/components/schemas/additionalInformation'
 
@@ -2734,10 +2734,10 @@ components:
       properties:
         companyName:
           $ref: '#/components/schemas/name'
-          #description: Name of the company the person works/worked for.
+          # description: Name of the company the person works/worked for.
         companyDomicile:
           $ref: '#/components/schemas/country'
-          #description: Domicile of the company e.g. CH
+          # description: Domicile of the company e.g. CH
         companyCountriesOfBusinessList:
           type: array
           items:
@@ -2774,7 +2774,7 @@ components:
           $ref: '#/components/schemas/year'
         sharedholderSinceYear:
           $ref: '#/components/schemas/year'
-          #Owner/Shareholder of company since
+          # Owner/Shareholder of company since
         mandate:
           type: string
           maxLength: 70
@@ -3019,7 +3019,7 @@ components:
         externalReference:
           $ref: '#/components/schemas/externalReference'
 
-    ###Objects###
+    ### Objects ###
 
     country:
       type: string
@@ -3031,7 +3031,7 @@ components:
       type: string
       pattern: '[A-Z]{3}'
       description: ISO 4217 Currency Code
-      example: 'CHF'
+      example: CHF
 
     language:
       type: string
@@ -3051,21 +3051,21 @@ components:
       maxLength: 35
       readOnly: True
       description: Unique customer ID assigned by the custody bank
-      example: '987654321'
+      example: 987654321
 
     temporaryId:
       type: string
       minLength: 1
       maxLength: 35
       description: Some kind of ID (Customer/Person/Prospect/Order/Task ID) so that a status update can be obtained (e.g. customer onboarding).
-      example: '2130040'
+      example: 2130040
 
     permanentId:
       type: string
       minLength: 1
       maxLength: 35
       description: Some kind of permanent ID (Customer/Person/Prospect etc.) so that an object can be identified.
-      example: '23000454'
+      example: 23000454
 
     personId:
       type: string
@@ -3116,7 +3116,7 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/country'
-        #description: Countries in which the person is eligible for taxes. The first country in the list indicates the main tax domicile of the person.
+        # description: Countries in which the person is eligible for taxes. The first country in the list indicates the main tax domicile of the person.
 
     tin:
       type: object
@@ -3128,7 +3128,7 @@ components:
           description: Taxpayer identification number / National ID
         country:
           $ref: '#/components/schemas/country'
-          #description: Country to which the TIN / national ID belongs to
+          # description: Country to which the TIN / national ID belongs to
 
     number:
       type: integer
@@ -3170,7 +3170,7 @@ components:
       type: string
       pattern: '[0-9]{4}'
       description: Year
-      example: '1995'
+      example: 1995
 
     isin:
       type: string

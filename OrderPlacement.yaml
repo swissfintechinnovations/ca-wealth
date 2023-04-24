@@ -289,12 +289,12 @@ components:
         identification:
           type: string
           maxLength: 35
-          example: '876543219'
+          example: 876543219
           description: Unambiguous identification for the account
         type:
           type: string
           description: Indicates the type of the account.
-          example: 'safekeepingAccount'
+          example: safekeepingAccount
           enum:
             - cashAccount
             - safekeepingAccount
@@ -356,7 +356,7 @@ components:
         clientAllocationIdentification:
           type: string
           description: Unambiguous identifier for the individual allocation of the bulk order, as assigned by the instructing party.
-          example: '321321321'
+          example: 321321321
         amount:
           type: string
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
@@ -404,7 +404,7 @@ components:
             - valueTooHigh
             - zeroQuantity
             - other
-          example: 'zeroQuantity'
+          example: zeroQuantity
         proprietary:
           type: string
           description: Cancelled reason expressed as a proprietary description that provides more details about the reason of the cancellation.
@@ -431,7 +431,7 @@ components:
         allocationIdentification:
           type: string
           description: Unambiguous identifier of the individual allocation of the bulk order , as assigned by the confirming party. Corresponds with the transactionIdentification of the OpenWealth Custody Services API.
-          example: '123123123'
+          example: 123123123
         executedQuantity:
           $ref: '#/components/schemas/executedQuantity'
         averagePrice:
@@ -458,7 +458,7 @@ components:
       type: string
       pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
       maxLength: 22
-      example: '12000'
+      example: 12000
       description: Absolute amount
 
     billingDetails:
@@ -481,7 +481,7 @@ components:
         type:
           type: string
           description: Indicates the type of billing amount.
-          example: 'grossTradeAmount'
+          example: grossTradeAmount
           enum:
             - grossTradeAmount
             - grossSettlementAmount
@@ -532,7 +532,7 @@ components:
         executionType:
           type: string
           description: Type of the execution of the order
-          example: 'limit'
+          example: limit
           enum:
             - market
             - limit
@@ -594,7 +594,7 @@ components:
       enum:
         - credit
         - debit
-      example: 'debit'
+      example: debit
       description: Specifies if the amount is a debit (negative) or credit (positive) amount.
 
     currency:
@@ -627,7 +627,7 @@ components:
       pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
       maxLength: 22
       description: For GT orders the quantity on a GT order that has traded today.
-      example: '5'
+      example: 5
 
     executedQuantity:
       type: string
@@ -645,7 +645,7 @@ components:
       properties:
         clientOrderIdentification:
           type: string
-          example: '123123123'
+          example: 123123123
           description: Unambiguous identifier for the bulk order, as assigned by the instructing party.
           maxLength: 20
         orderDateTime:
@@ -657,7 +657,7 @@ components:
         orderIdentification:
           type: string
           description: Unambiguous identifier for the bulk order, as assigned by the confirming party.
-          example: '321321321'
+          example: 321321321
           readOnly: true
         bulkOrderDetails:
           $ref: '#/components/schemas/bulkOrderDetails'
@@ -717,7 +717,7 @@ components:
           example: 'CHF'
         fxType:
           type: string
-          description: Defines, if the indicated fx rate includes ('costPrice') or excludes ('dealPrice') fees and taxes.
+          description: Defines, if the indicated fx rate includes (costPrice) or excludes (dealPrice) fees and taxes.
           example: costPrice
           enum:
             - costPrice
@@ -736,11 +736,11 @@ components:
           properties:
             identification:
               type: string
-              example: 'CH0012005267'
+              example: CH0012005267
               description: Instrument identification
             type:
               type: string
-              example: 'isin'
+              example: isin
               description: Type of the instrument identification
               enum:
                 - isin
@@ -768,7 +768,7 @@ components:
       properties:
         clientOrderIdentification:
           type: string
-          example: '123123123'
+          example: 123123123
           description: Unambiguous identifier for the bulk order, as assigned by the instructing party.
           maxLength: 20
         orderDateTime:
@@ -780,7 +780,7 @@ components:
         orderIdentification:
           type: string
           description: Unambiguous identifier for the bulk order, as assigned by the confirming party.
-          example: '321321321'
+          example: 321321321
           readOnly: true
         bulkOrderDetails:
           $ref: '#/components/schemas/bulkOrderDetails'
@@ -800,7 +800,7 @@ components:
         type:
           type: string
           description: Type of the amount
-          example: 'unitsNumber'
+          example: unitsNumber
           enum:
             - unitsNumber
             - nominal
@@ -890,7 +890,7 @@ components:
         - expired
         - partiallyExpired
         - marketExpired
-      example: 'partiallyFilled'
+      example: partiallyFilled
 
     dayAveragePrice:
       type: string
@@ -907,7 +907,7 @@ components:
           $ref: '#/components/schemas/date'
         dateType:
           type: string
-          example: 'bookingDate'
+          example: bookingDate
           enum:
             - transactionDate
             - bookingDate
@@ -965,7 +965,7 @@ components:
             - valueTooHigh
             - wrongDenomination
             - other
-          example: 'endOfLife'
+          example: endOfLife
         proprietary:
           type: string
           description: Cancelled reason expressed as a proprietary description that provides more details about the reason of the cancellation.
@@ -984,7 +984,7 @@ components:
           type: string
           maxLength: 4
           description: Market Identifier Code. Identification of a financial market, as stipulated in the norm ISOMarket Identifier Code. Identification of a financial market, as stipulated in the norm ISO 10383 "Codes for exchanges and market identifications".
-          example: 'XSWX'
+          example: XSWX
         marketDescription:
           type: string
           description: Description of the market when no Market Identification Code is available.
