@@ -7,19 +7,17 @@ info:
     email: openwealth@synpulse.com
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html' 
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/OpenWealthAPI/OrderPlacement/2.0.7
 
-
-    
 paths:
   /orders:
     parameters:
-     - $ref: '#/components/parameters/correlation_in_header'
+      - $ref: '#/components/parameters/correlation_in_header'
     post:
       summary: Posts a new order.
       description: Posts a new order.
@@ -159,7 +157,7 @@ paths:
       tags:
         - orderplacement
       responses:
-        '202': 
+        '202':
           description: Order cancellation received for further processing.
           headers:
             X-Correlation-ID:
@@ -188,21 +186,21 @@ paths:
           $ref: '#/components/responses/standard503'
         '504':
           $ref: '#/components/responses/standard504'
-  
+
   /accountaccesses:
     parameters:
-     - $ref: '#/components/parameters/correlation_in_header'
+      - $ref: '#/components/parameters/correlation_in_header'
     get:
       summary: Returns list of accounts the requestor has access to.
       description: Returns list of accounts the requestor has access to with the type of access the requestor has. Paging is done based on the accountaccess object, i.e. if limit is set to 1, then 1 accountaccess object will be returned per page.
       operationId: getAccountAccesses
       tags:
-      - accountaccess
+        - accountaccess
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
       responses:
-        '200': 
+        '200':
           description: Returns list of accounts the requestor has access to.
           headers:
             X-Correlation-ID:
@@ -231,15 +229,14 @@ paths:
           $ref: '#/components/responses/standard503'
         '504':
           $ref: '#/components/responses/standard504'
-      
-components:
 
+components:
   ###############
   # Parameters  #
   ###############
 
   parameters:
-    limit: 
+    limit:
       name: limit
       in: query
       description: Maximum number of items to return.
@@ -248,8 +245,8 @@ components:
         type: integer
         format: int32
         minimum: 1
-#        maximum: 100
-#        default: 20
+    #        maximum: 100
+    #        default: 20
     cursor:
       name: cursor
       in: query
@@ -270,26 +267,22 @@ components:
   ###############
 
   headers:
-  
     X-Correlation-ID:
       description: Client defined ID from request to correlate HTTP requests between a client and server.
       schema:
         type: string
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
     X-nextCursor:
-      description: An opaque string value, or an empty string if there are no more results. 
+      description: An opaque string value, or an empty string if there are no more results.
       required: false
       schema:
         type: string
-        
-        
 
   ############
   # Schemas  #
   ############
 
   schemas:
-
     account:
       type: object
       properties:
@@ -298,26 +291,26 @@ components:
           maxLength: 35
           example: '876543219'
           description: Unambiguous identification for the account
-        type: 
+        type:
           type: string
           description: Indicates the type of the account.
           example: 'safekeepingAccount'
-          enum: 
-          - cashAccount
-          - safekeepingAccount
-          - other
-    
+          enum:
+            - cashAccount
+            - safekeepingAccount
+            - other
+
     accounts:
-          type: array
-          description: List of affected cashAccount and safekeepingAccount
-          items:
-            $ref: '#/components/schemas/account'
-    
+      type: array
+      description: List of affected cashAccount and safekeepingAccount
+      items:
+        $ref: '#/components/schemas/account'
+
     accountAccess:
       type: object
-      required: 
-      - account
-      - accessType
+      required:
+        - account
+        - accessType
       properties:
         account:
           $ref: '#/components/schemas/account'
@@ -325,15 +318,15 @@ components:
           type: string
           description: Indicates what type of access the requestor has for the specified account.
           enum:
-          - read
-          - write
-    
+            - read
+            - write
+
     accountAccessList:
       type: array
       description: List of accountAccess objects
       items:
         $ref: '#/components/schemas/accountAccess'
-    
+
     accruedInterests:
       type: object
       properties:
@@ -350,10 +343,10 @@ components:
           $ref: '#/components/schemas/creditDebitIndicator'
         foreignExchangeRate:
           $ref: '#/components/schemas/foreignExchangeRate'
-          
+
     requestedAllocation:
       type: object
-      required: 
+      required:
         - accounts
         - clientAllocationIdentification
         - amount
@@ -366,19 +359,18 @@ components:
           example: '321321321'
         amount:
           type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
           description: Quantity to be allocated to specific safekeeping account
-          example: "100"
-    
-    
+          example: '100'
+
     allocation:
       required:
         - requestedAllocation
       type: object
-      description: Extended details regarding the allocations including validity of the allocation and billing details. 
+      description: Extended details regarding the allocations including validity of the allocation and billing details.
       properties:
-        requestedAllocation: 
+        requestedAllocation:
           $ref: '#/components/schemas/requestedAllocation'
         allocationCancellationReasonList:
           $ref: '#/components/schemas/allocationCancellationReasonList'
@@ -386,7 +378,7 @@ components:
           $ref: '#/components/schemas/remainingAllocation'
         completeAllocationList:
           $ref: '#/components/schemas/completeAllocationList'
-    
+
     allocationCancellationReason:
       type: object
       properties:
@@ -394,24 +386,24 @@ components:
           type: string
           description: Cancelled reason expressed as a code.
           enum:
-          - accountIdentificationMissing
-          - accountInvalidForOrderPlacement
-          - accountTypeMissing
-          - accountTypeNotMatchingAccount
-          - allocationQuantityTooHigh
-          - cashAccountMissing
-          - cashAccountNotFound
-          - insufficientBuyingPower
-          - insufficientQuantityAvailable
-          - invalidCurrencyForAccount
-          - pretradeCheckFailed
-          - safekeepingAccountMissing
-          - safekeepingAccountNotFound
-          - tooManyCashAccountsIndicated
-          - tooManySafekeepingAccounts
-          - valueTooHigh
-          - zeroQuantity
-          - other
+            - accountIdentificationMissing
+            - accountInvalidForOrderPlacement
+            - accountTypeMissing
+            - accountTypeNotMatchingAccount
+            - allocationQuantityTooHigh
+            - cashAccountMissing
+            - cashAccountNotFound
+            - insufficientBuyingPower
+            - insufficientQuantityAvailable
+            - invalidCurrencyForAccount
+            - pretradeCheckFailed
+            - safekeepingAccountMissing
+            - safekeepingAccountNotFound
+            - tooManyCashAccountsIndicated
+            - tooManySafekeepingAccounts
+            - valueTooHigh
+            - zeroQuantity
+            - other
           example: 'zeroQuantity'
         proprietary:
           type: string
@@ -422,8 +414,7 @@ components:
       description: Reasons for cancellation of the allocation.
       items:
         $ref: '#/components/schemas/allocationCancellationReason'
-        
-    
+
     remainingAllocation:
       type: object
       description: Provides an overview of what quantity has already been allocated to the allocation and what quantity is still outstanding.
@@ -432,7 +423,7 @@ components:
           $ref: '#/components/schemas/executedQuantity'
         remainingQuantity:
           $ref: '#/components/schemas/remainingQuantity'
-    
+
     completeAllocation:
       type: object
       description: Completed allocation
@@ -449,27 +440,25 @@ components:
           $ref: '#/components/schemas/bookingDate'
         billingDetails:
           $ref: '#/components/schemas/billingDetails'
-    
+
     completeAllocationList:
       type: array
       description: List of completed allocations.
       items:
         $ref: '#/components/schemas/completeAllocation'
-    
-        
-    
+
     bookingDate:
       type: object
       description: Indicates the booking date for an order or allocation.
       properties:
         date:
           $ref: '#/components/schemas/date'
-    
+
     amount:
       type: string
-      pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+      pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
       maxLength: 22
-      example: "12000"
+      example: '12000'
       description: Absolute amount
 
     billingDetails:
@@ -485,7 +474,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/feeOrTax'
-    
+
     billingAmount:
       type: object
       properties:
@@ -494,10 +483,10 @@ components:
           description: Indicates the type of billing amount.
           example: 'grossTradeAmount'
           enum:
-          - grossTradeAmount
-          - grossSettlementAmount
-          - netSettlementAmount
-          - netBillingAmount
+            - grossTradeAmount
+            - grossSettlementAmount
+            - netSettlementAmount
+            - netBillingAmount
         amount:
           $ref: '#/components/schemas/amount'
         currency:
@@ -509,13 +498,13 @@ components:
 
     bulkOrderDetails:
       required:
-      - side
-      - orderQuantity
-      - financialInstrumentDetails
-      - currency
-      - executionType
-      - timeInForce
-      - numberOfAllocations
+        - side
+        - orderQuantity
+        - financialInstrumentDetails
+        - currency
+        - executionType
+        - timeInForce
+        - numberOfAllocations
       type: object
       properties:
         side:
@@ -523,8 +512,8 @@ components:
           description: Side taken by a party on an order.
           example: 'buy'
           enum:
-          - buy
-          - sell
+            - buy
+            - sell
         orderQuantity:
           $ref: '#/components/schemas/orderQuantity'
         displayQuantity:
@@ -545,52 +534,50 @@ components:
           description: Type of the execution of the order
           example: 'limit'
           enum:
-          - market
-          - limit
-          - stop
-          - stopLimit
+            - market
+            - limit
+            - stop
+            - stopLimit
         limitPrice:
           type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
           description: Limit price per unit of quantity (e.g. per share)
-          example: "12.50"
+          example: '12.50'
         stopPrice:
           type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
           description: Stop price per unit of quantity (e.g. per share)
-          example: "10.05"
+          example: '10.05'
         timeInForce:
           type: string
-          description: Specifies how long the order remains in effect. 
+          description: Specifies how long the order remains in effect.
           example: 'day'
           enum:
-          - day
-          - goodTillCancel
-          - atTheOpening
-          - immediateOrCancel
-          - fillOrKill
-          - goodTillCrossing
-          - goodTillDate
-          - atTheClose
-          - goodThroughCrossing
-          - atCrossing
-          - goodForTime
-          - goodForAuction
-          - goodForMonth
+            - day
+            - goodTillCancel
+            - atTheOpening
+            - immediateOrCancel
+            - fillOrKill
+            - goodTillCrossing
+            - goodTillDate
+            - atTheClose
+            - goodThroughCrossing
+            - atCrossing
+            - goodForTime
+            - goodForAuction
+            - goodForMonth
         expiryDateTime:
           type: string
           format: date-time
           example: 2018-04-13T11:11:11Z
           description: Date and time of the order expiration (UTC Timestamp). In accordance with ISO 8601.
 
-
-          
     order:
       required:
-      - extendedOrder
-      - orderState
+        - extendedOrder
+        - orderState
       type: object
       properties:
         statementDateTime:
@@ -601,21 +588,21 @@ components:
           $ref: '#/components/schemas/orderState'
         dateList:
           $ref: '#/components/schemas/dateList'
-    
+
     creditDebitIndicator:
       type: string
-      enum: 
-      - credit
-      - debit
-      example: "debit"
+      enum:
+        - credit
+        - debit
+      example: 'debit'
       description: Specifies if the amount is a debit (negative) or credit (positive) amount.
-      
+
     currency:
       description: ISO 4217 code
       type: string
       pattern: '[A-Z]{3}'
       example: 'CHF'
-      
+
     date:
       type: string
       format: date
@@ -627,32 +614,32 @@ components:
       description: Indicates dates relevant for the respective order
       items:
         $ref: '#/components/schemas/orderDate'
-    
+
     dayOrderQuantity:
       type: string
-      pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+      pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
       maxLength: 22
       description: For GoodTill(GT) orders the orderQuantity less all quantity (adjusted for stock splits) that traded on previous days. DayOrderQuantity = OrderQuantity - (executedQuantity - dayExecutedQuantity).
-      example: "15"
-    
+      example: '15'
+
     dayExecutedQuantity:
       type: string
-      pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+      pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
       maxLength: 22
-      description:  For GT orders the quantity on a GT order that has traded today.
-      example: "5"
-    
+      description: For GT orders the quantity on a GT order that has traded today.
+      example: '5'
+
     executedQuantity:
       type: string
-      pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+      pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
       maxLength: 22
       description: Total quantity (e.g. number of shares) filled.
-      example: "100"
-    
+      example: '100'
+
     extendedOrder:
       required:
-      - clientOrderIdentification
-      - bulkOrderDetails
+        - clientOrderIdentification
+        - bulkOrderDetails
       type: object
       description: Order object with extended allocation information.
       properties:
@@ -678,7 +665,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/allocation'
-    
+
     feeOrTax:
       type: object
       properties:
@@ -708,37 +695,37 @@ components:
           $ref: '#/components/schemas/creditDebitIndicator'
         foreignExchangeRate:
           $ref: '#/components/schemas/foreignExchangeRate'
-          
+
     foreignExchangeRate:
-        type: object
-        properties:
-          sourceCurrency:
-            description: Currency of the amount to be converted in a currency conversion.
-            type: string
-            pattern: '[A-Z]{3}'
-            example: 'CHF'
-          rate:
-            type: string
-            pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
-            maxLength: 22
-            example: "1.0963"
-            description: Indicates the rate of a fx transaction for one source currency unit to the target currency. E.g. 1GBP=xxxEUR, where the source currency is GBP and the target currency is EUR.
-          targetCurrency:
-            description: Currency into which an amount is to be converted in a currency conversion.
-            type: string
-            pattern: '[A-Z]{3}'
-            example: 'CHF'
-          fxType:
-            type: string
-            description: Defines, if the indicated fx rate includes ('costPrice') or excludes ('dealPrice') fees and taxes.
-            example: costPrice
-            enum: 
+      type: object
+      properties:
+        sourceCurrency:
+          description: Currency of the amount to be converted in a currency conversion.
+          type: string
+          pattern: '[A-Z]{3}'
+          example: 'CHF'
+        rate:
+          type: string
+          pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
+          maxLength: 22
+          example: '1.0963'
+          description: Indicates the rate of a fx transaction for one source currency unit to the target currency. E.g. 1GBP=xxxEUR, where the source currency is GBP and the target currency is EUR.
+        targetCurrency:
+          description: Currency into which an amount is to be converted in a currency conversion.
+          type: string
+          pattern: '[A-Z]{3}'
+          example: 'CHF'
+        fxType:
+          type: string
+          description: Defines, if the indicated fx rate includes ('costPrice') or excludes ('dealPrice') fees and taxes.
+          example: costPrice
+          enum:
             - costPrice
             - dealPrice
 
     financialInstrumentDetails:
       type: object
-      required: 
+      required:
         - financialInstrumentIdentification
       properties:
         financialInstrumentIdentification:
@@ -755,29 +742,28 @@ components:
               type: string
               example: 'isin'
               description: Type of the instrument identification
-              enum: 
-              - isin
-              - sedol
-              - cusip
-              - ric
-              - tickerSymbol
-              - bloomberg
-              - cta
-              - quick
-              - wertpapier
-              - dutch
-              - valoren
-              - sicovam
-              - belgian
-              - common
-              - otherProprietaryIdentification
+              enum:
+                - isin
+                - sedol
+                - cusip
+                - ric
+                - tickerSymbol
+                - bloomberg
+                - cta
+                - quick
+                - wertpapier
+                - dutch
+                - valoren
+                - sicovam
+                - belgian
+                - common
+                - otherProprietaryIdentification
 
-            
     requestedOrder:
       required:
-      - clientOrderIdentification
-      - bulkOrderDetails
-      - requestedAllocationList
+        - clientOrderIdentification
+        - bulkOrderDetails
+        - requestedAllocationList
       type: object
       properties:
         clientOrderIdentification:
@@ -808,29 +794,28 @@ components:
       properties:
         amount:
           type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
-          example: "300"
-        type: 
+          example: '300'
+        type:
           type: string
           description: Type of the amount
           example: 'unitsNumber'
           enum:
-          - unitsNumber
-          - nominal
-
+            - unitsNumber
+            - nominal
 
     orderState:
       required:
-      - status
-      - executedQuantity
-      - remainingQuantity
+        - status
+        - executedQuantity
+        - remainingQuantity
       type: object
       properties:
         status:
           $ref: '#/components/schemas/orderStatus'
         statusDateTime:
-         $ref: '#/components/schemas/statusDateTime'
+          $ref: '#/components/schemas/statusDateTime'
         orderCancellationReasonList:
           $ref: '#/components/schemas/orderCancellationReasonList'
         executedQuantity:
@@ -839,10 +824,10 @@ components:
           $ref: '#/components/schemas/remainingQuantity'
         averagePrice:
           type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
           description: Calculated average price of all fills on this order.
-          example: "17.85"
+          example: '17.85'
         dayOrderQuantity:
           $ref: '#/components/schemas/dayOrderQuantity'
         dayExecutedQuantity:
@@ -851,9 +836,9 @@ components:
           $ref: '#/components/schemas/dayAveragePrice'
         factor:
           type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+          pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
-          example: "100"
+          example: '100'
           description: |
             For Fixed Income: Amorization Factor for deriving Current face from Original face for ABS or MBS securities, note the fraction may be greater than, equal to or less than . In TIPS securities this is the Inflation index.
             Qty * Factor * Price = Gross Trade Amount
@@ -862,14 +847,13 @@ components:
             (Qty * Price) * Factor = Nominal Value"
         orderStatusHistoryList:
           $ref: '#/components/schemas/orderStatusHistoryList'
-        
-    
+
     statusDateTime:
       type: string
       format: date-time
       example: 2018-04-13T11:11:11Z
-      description: Indicates the date and time at which the status has been updated into the status indicated under "status" (UTC Timestamp). In accordance with ISO 8601. 
-      
+      description: Indicates the date and time at which the status has been updated into the status indicated under "status" (UTC Timestamp). In accordance with ISO 8601.
+
     orderStatusHistory:
       type: object
       description: Provides the status of the order was at a certain time in its lifecycle.
@@ -878,42 +862,42 @@ components:
           $ref: '#/components/schemas/orderStatus'
         statusDateTime:
           $ref: '#/components/schemas/statusDateTime'
-    
+
     orderStatusHistoryList:
       type: array
       description: Provides all the status that the order was in at a certain time in its lifecycle.
       items:
         $ref: '#/components/schemas/orderStatusHistory'
-    
+
     orderStatus:
       type: string
       description: Shows in which stage of its life cycle an order is.
       enum:
-      - acknowledged
-      - accepted
-      - customerRelease
-      - placed
-      - partiallyFilled
-      - filled
-      - executed
-      - cancelled
-      - partiallyCancelled
-      - marketCancelled
-      - pendingCancel
-      - rejected
-      - partiallyRejected
-      - marketRejected
-      - expired
-      - partiallyExpired
-      - marketExpired
-      example: 'partiallyFilled'    
+        - acknowledged
+        - accepted
+        - customerRelease
+        - placed
+        - partiallyFilled
+        - filled
+        - executed
+        - cancelled
+        - partiallyCancelled
+        - marketCancelled
+        - pendingCancel
+        - rejected
+        - partiallyRejected
+        - marketRejected
+        - expired
+        - partiallyExpired
+        - marketExpired
+      example: 'partiallyFilled'
 
     dayAveragePrice:
       type: string
-      pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+      pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
       maxLength: 22
       description: The average price for quantity that has traded today.
-      example: "17.8"
+      example: '17.8'
 
     orderDate:
       type: object
@@ -921,15 +905,14 @@ components:
       properties:
         date:
           $ref: '#/components/schemas/date'
-        dateType:  
+        dateType:
           type: string
           example: 'bookingDate'
           enum:
-          - transactionDate
-          - bookingDate
-          - valueDate
-    
- 
+            - transactionDate
+            - bookingDate
+            - valueDate
+
     orderCancellationReason:
       type: object
       description: Indicates the reason, why an order is invalid/cancelled/rejected
@@ -938,62 +921,61 @@ components:
           type: string
           description: Cancelled reason expressed as a code.
           enum:
-          - allocationInvalid
-          - cancelledByHub
-          - cancelledByInstructingParty
-          - cancelledByOther
-          - cannotContainMarketIdentificationAndMarketDescription
-          - currencyNotSupportedForFinancialInstrument
-          - displayQuantityNotImplemented
-          - endOfLife
-          - executionTypeInconsequential
-          - executionTypeNotSupported
-          - expiryDateTimeInThePast
-          - expiryDateTimeMissing
-          - expiryDateTimeNotAllowed
-          - financialInstrumentIdentificationNotUnique
-          - financialInstrumentIdentificationTypeNotSupported
-          - financialInstrumentNotAllowedViaInterface
-          - financialInstrumentNotFound
-          - financialInstrumentNotTradedOnMarket
-          - icebergOrderTooLarge
-          - invalidPrices
-          - limitPriceMissingForExecutionType
-          - limitPriceNotAllowedForExecutionType
-          - marketCurrentlyBlockedForTrading
-          - marketQuoteNotAvailableForProduct
-          - maximumNumberOfAllocationsExceeded
-          - numberOfAllocationsDeviateFromAllocationsProvided
-          - numberOfAllocationsEmpty
-          - numberOfAllocationsZero
-          - orderQuantityDeviatesFromSumOfAllocationQuantities
-          - orderQuantityTooHigh
-          - orderQuantityTooSmall
-          - orderQuantityTypeNotImplemented
-          - orderQuantityTypeWrong
-          - orderTypeNotSupportedByMarket
-          - placeOfTradeNotImplemented
-          - placeOfTradeNotSupported
-          - productExpired
-          - selectedTimeInForceNotImplemented
-          - stopPriceMissingForExecutionType
-          - stopPriceNotAllowedForExecutionType
-          - timeInForceAndExpiryDateInconsistent
-          - valueTooHigh
-          - wrongDenomination
-          - other
+            - allocationInvalid
+            - cancelledByHub
+            - cancelledByInstructingParty
+            - cancelledByOther
+            - cannotContainMarketIdentificationAndMarketDescription
+            - currencyNotSupportedForFinancialInstrument
+            - displayQuantityNotImplemented
+            - endOfLife
+            - executionTypeInconsequential
+            - executionTypeNotSupported
+            - expiryDateTimeInThePast
+            - expiryDateTimeMissing
+            - expiryDateTimeNotAllowed
+            - financialInstrumentIdentificationNotUnique
+            - financialInstrumentIdentificationTypeNotSupported
+            - financialInstrumentNotAllowedViaInterface
+            - financialInstrumentNotFound
+            - financialInstrumentNotTradedOnMarket
+            - icebergOrderTooLarge
+            - invalidPrices
+            - limitPriceMissingForExecutionType
+            - limitPriceNotAllowedForExecutionType
+            - marketCurrentlyBlockedForTrading
+            - marketQuoteNotAvailableForProduct
+            - maximumNumberOfAllocationsExceeded
+            - numberOfAllocationsDeviateFromAllocationsProvided
+            - numberOfAllocationsEmpty
+            - numberOfAllocationsZero
+            - orderQuantityDeviatesFromSumOfAllocationQuantities
+            - orderQuantityTooHigh
+            - orderQuantityTooSmall
+            - orderQuantityTypeNotImplemented
+            - orderQuantityTypeWrong
+            - orderTypeNotSupportedByMarket
+            - placeOfTradeNotImplemented
+            - placeOfTradeNotSupported
+            - productExpired
+            - selectedTimeInForceNotImplemented
+            - stopPriceMissingForExecutionType
+            - stopPriceNotAllowedForExecutionType
+            - timeInForceAndExpiryDateInconsistent
+            - valueTooHigh
+            - wrongDenomination
+            - other
           example: 'endOfLife'
         proprietary:
           type: string
           description: Cancelled reason expressed as a proprietary description that provides more details about the reason of the cancellation.
-    
+
     orderCancellationReasonList:
       type: array
       description: Indicates the reasons, why an order is invalid/cancelled/rejected
       items:
         $ref: '#/components/schemas/orderCancellationReason'
-  
-  
+
     placeOfTrade:
       type: object
       description: Market in which a trade transaction is to be or has been executed.
@@ -1007,19 +989,19 @@ components:
           type: string
           description: Description of the market when no Market Identification Code is available.
           example: 'OTC'
-    
+
     remainingQuantity:
       type: string
-      pattern: "[0-9]{1,12}([.][0-9]{1,9})?"
+      pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
       maxLength: 22
       description: Quantity open for further execution. If the status is cancelled,  expired, or rejected (in which case the order is no longer active) then remainingQuantity could be 0, otherwise remainingQuantity = orderQuantity - executedQuantity.
-      example: "20"
-    
+      example: '20'
+
     statementDateTime:
       type: string
       format: date-time
       example: 2018-04-13T11:11:11Z
-      description: Date and time of the statement creation (UTC Timestamp). In accordance with ISO 8601. 
+      description: Date and time of the statement creation (UTC Timestamp). In accordance with ISO 8601.
 
     # ---- Error Response
     commonErrorResponse:
@@ -1030,16 +1012,13 @@ components:
           $ref: '#/components/schemas/commonErrorType'
         title:
           type: string
-          example:
-            This is the general problem description
+          example: This is the general problem description
         detail:
           type: string
-          example:
-            Detailed problem description with respect to the current request
+          example: Detailed problem description with respect to the current request
         instance:
           type: string
-          example:
-            path/to/corresponding/resource
+          example: path/to/corresponding/resource
 
     commonErrorType:
       title: Common Error Type
@@ -1062,7 +1041,7 @@ components:
         - /problems/SERVICE_UNAVAILABLE
       example: '/problems/TECHNICAL_ERROR'
     # ---- End Error Response
-  
+
   # ---- Responses - Standard Errors Common Data Model v1.2.2----
   responses:
     standard400:
@@ -1094,7 +1073,7 @@ components:
           schema:
             type: string
             description: 'application/problem+json; charset=utf-8 according to RFC7807'
-            example: application/problem+json     
+            example: application/problem+json
         Content-Language:
           schema:
             type: string
@@ -1128,7 +1107,7 @@ components:
             type: string
             description: Client defined ID from request to correlate HTTP requests between a client and server.
             example: f058ebd6-02f7-4d3f-942e-904344e8cde5
-      description: Forbidden - The server understood the request but refuses to authorize it. 
+      description: Forbidden - The server understood the request but refuses to authorize it.
       content:
         application/problem+json:
           schema:
@@ -1271,7 +1250,7 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
-      
+
     standard504:
       headers:
         Content-Type:
@@ -1293,6 +1272,6 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'      
-    
+            $ref: '#/components/schemas/commonErrorResponse'
+
   # ---- End Responses - Standard Errors
