@@ -604,7 +604,7 @@ components:
           type: string
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
-          example: '10.25'
+          example: 10.25
           description: Absolute interest amount that has accrued in between coupon payment periods
         currency:
           $ref: '#/components/schemas/currency'
@@ -674,7 +674,7 @@ components:
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
           description: Amount of the price
-          example: '100.4'
+          example: 100.4
         amountType:
           type: string
           description: Indicates whether the price amount is depicted as unit price or percentage.
@@ -721,7 +721,7 @@ components:
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
           description: Absolute amount of the valuation
-          example: '13104.5'
+          example: 13104.5
         currency:
           $ref: '#/components/schemas/currency'
         creditDebitIndicator:
@@ -820,7 +820,7 @@ components:
                 type: string
                 pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
                 maxLength: 22
-                example: '100.36'
+                example: 100.36
                 description: Price indication
               amountType:
                 type: string
@@ -1173,7 +1173,7 @@ components:
           type: string
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
-          example: '100'
+          example: 100
           description: Contract size of the instrument
         minimumDenomination:
           type: string
@@ -1195,7 +1195,7 @@ components:
           type: string
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
-          example: '0.85'
+          example: 0.85
           description: Information regarding the factor.
         financialInstrumentPriceList:
           type: array
@@ -1247,7 +1247,7 @@ components:
           type: string
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
-          example: '0.00125'
+          example: 0.00125
           description: Interest rate of the instrument
         currency:
           $ref: '#/components/schemas/currency'
@@ -1312,7 +1312,7 @@ components:
           type: string
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
-          example: '100.9'
+          example: 100.9
           description: Declares the amount of the indicated price
         amountType:
           type: string
@@ -1360,7 +1360,7 @@ components:
           type: string
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
-          example: '1.0963'
+          example: 1.0963
           description: Indicates the rate of a fx transaction for one source currency unit to the target currency. E.g. 1GBP=xxxEUR, where the source currency is GBP and the target currency is EUR.
         targetCurrency:
           description: Currency into which an amount is to be converted in a currency conversion.

@@ -1413,7 +1413,7 @@ components:
           pattern: '[A-Z0-9]{18,18}[0-9]{2,2}'
         domicilaryCompany:
           type: boolean
-          description: 'Indicates whether the company is a domiciliary company'
+          description: Indicates whether the company is a domiciliary company
           example: FALSE
 
     personAssociation:  # "personAssociation" will be used as discriminator
@@ -1856,7 +1856,7 @@ components:
           type: string
           maxLength: 35
           description: Building room number
-          example: '2.15'
+          example: 2.15
         postCode:
           type: string
           maxLength: 35
@@ -3043,7 +3043,7 @@ components:
       type: string
       format: date
       description: Date according to ISO 8601 i.e. YYYY-MM-DD format
-      example: '2018-04-13'
+      example: 2018-04-13
 
     customerId:
       type: string

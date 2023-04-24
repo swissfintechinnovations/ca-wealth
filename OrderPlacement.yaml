@@ -362,7 +362,7 @@ components:
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
           description: Quantity to be allocated to specific safekeeping account
-          example: '100'
+          example: 100
 
     allocation:
       required:
@@ -543,13 +543,13 @@ components:
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
           description: Limit price per unit of quantity (e.g. per share)
-          example: '12.50'
+          example: 12.50
         stopPrice:
           type: string
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
           description: Stop price per unit of quantity (e.g. per share)
-          example: '10.05'
+          example: 10.05
         timeInForce:
           type: string
           description: Specifies how long the order remains in effect.
@@ -607,7 +607,7 @@ components:
       type: string
       format: date
       description: Date according to ISO 8601 i.e. YYYY-MM-DD format
-      example: '2018-04-13'
+      example: 2018-04-13
 
     dateList:
       type: array
@@ -620,7 +620,7 @@ components:
       pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
       maxLength: 22
       description: For GoodTill(GT) orders the orderQuantity less all quantity (adjusted for stock splits) that traded on previous days. DayOrderQuantity = OrderQuantity - (executedQuantity - dayExecutedQuantity).
-      example: '15'
+      example: 15
 
     dayExecutedQuantity:
       type: string
@@ -634,7 +634,7 @@ components:
       pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
       maxLength: 22
       description: Total quantity (e.g. number of shares) filled.
-      example: '100'
+      example: 100
 
     extendedOrder:
       required:
@@ -796,7 +796,7 @@ components:
           type: string
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
-          example: '300'
+          example: 300
         type:
           type: string
           description: Type of the amount
@@ -827,7 +827,7 @@ components:
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
           description: Calculated average price of all fills on this order.
-          example: '17.85'
+          example: 17.85
         dayOrderQuantity:
           $ref: '#/components/schemas/dayOrderQuantity'
         dayExecutedQuantity:
@@ -838,7 +838,7 @@ components:
           type: string
           pattern: '[0-9]{1,12}([.][0-9]{1,9})?'
           maxLength: 22
-          example: '100'
+          example: 100
           description: |
             For Fixed Income: Amorization Factor for deriving Current face from Original face for ABS or MBS securities, note the fraction may be greater than, equal to or less than . In TIPS securities this is the Inflation index.
             Qty * Factor * Price = Gross Trade Amount
