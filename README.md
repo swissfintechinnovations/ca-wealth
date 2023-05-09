@@ -1,19 +1,10 @@
-## Introduction
-
-This repository hosts the current OpenAPI specification files. Its documentation can be found here:
-
-[Common API Documentation](https://c-a-p-s.atlassian.net/wiki/spaces/PUB/overview)
-
-An overview about the common API initiative can be found on our website:
-
-[Common API Website](https://common-api.ch)
+![SFTI_Banner](https://user-images.githubusercontent.com/116151702/232762217-ac254483-0d25-4234-857b-376ff8dbb1e7.png)
+![ca-wealth](https://user-images.githubusercontent.com/116151702/236239144-3c899e32-a88c-4890-816e-ec45bcadc6e1.png)
 
 ---
+[![GitHub release](https://img.shields.io/github/release/swissfintechinnovations/ca-wealth)](https://github.com/swissfintechinnovations/ca-wealth/releases/)
+![GitHub checks](https://img.shields.io/github/checks-status/swissfintechinnovations/ca-wealth/main)
+![Swagger Validator](https://img.shields.io/swagger/valid/3.0?specUrl=https%3A%2F%2Fraw.githubusercontent.com%2FOAI%2FOpenAPI-Specification%2Fmaster%2Fexamples%2Fv2.0%2Fjson%2Fpetstore-expanded.json)
+[![GitHub license](https://img.shields.io/github/license/swissfintechinnovations/ca-wealth)](https://github.com/swissfintechinnovations/ca-wealth/blob/main/LICENSE)
 
-## Work with the repository
-
-Use these steps to clone from SourceTree. Cloning allows you to work on the files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [GitHub's documentation](https://docs.github.com/en/github/getting-started-with-github/quickstart).
-
-## Make changes to the repository
-
-In order to make any changes, please create a new [feature branch](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/managing-branches#creating-a-branch). To upload changes, please create a [pull request](https://github.com/swissfintechinnovations/common-API/pulls), in order to discuss your changes before merging them into the master branch.
+This is the official SFTI repo for the wealth API. Documentations may be found in the [Wiki](https://github.com/swissfintechinnovations/ca-wealth/wiki).
