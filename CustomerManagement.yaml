@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 2.0.5
+  version: 2.0.6
   title: Customer Management API
   description: This API is part of the OpenWealth APIs for the connectivity between custody banks and WealthTechs (e.g. Portfolio Management Systems / CRMs). It facilitates the connection of CRMs to custody banks to automate customer onboarding and lifecycle management (Static Data, KYC & Documents). It enables the user to create, modify and consume customer data at/from custody banks. This version of the API is focused solely on natural persons. The management of companies, complex structures as well as products is currently not part of the scope of this API version.
   contact:
@@ -11,7 +11,7 @@ info:
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/OpenWealthAPI/CustomerManagement/2.0.5
+    url: https://virtserver.swaggerhub.com/OpenWealthAPI/CustomerManagement/2.0.6
 
 paths:
   /customers:
