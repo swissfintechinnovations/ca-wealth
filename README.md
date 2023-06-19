@@ -9,7 +9,7 @@
 
 This is the official SFTI repo for the wealth API. Documentations may be found in the [Wiki](https://github.com/swissfintechinnovations/ca-wealth/wiki).
 
-We refer to the SwaggerEditor for a graphical representation and source-file based documentation of the latest API state:
+An easy-to-read representation of the Wealth APIs is accessible via the following links:
 - [Custody Services API](https://editor.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-wealth/main/CustodyServices.yaml)
 - [Customer Management API](https://editor.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-wealth/main/CustomerManagement.yaml)
 - [Order Placement API](https://editor.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-wealth/main/OrderPlacement.yaml)
