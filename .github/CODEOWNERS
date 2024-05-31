@@ -4,4 +4,5 @@
 # The '*' pattern is global owners.
 # Order is important. The last matching pattern has the most precedence.
 
-*  @dkoeni
+*            @swissfintechinnovations/stream-lead-wealth
+.github/**   @swissfintechinnovations/github-infrastructure
