@@ -11,9 +11,7 @@ info:
 servers:
   - description: Your Server URL
     url: https://your-server.com
-security:
-  - OAuth2:
-      - read
+security: []
 tags:
   - name: accounts
     description: Accounts operations.
@@ -633,6 +631,7 @@ components:
           description: Name of the financial instrument in free format text.
         identificationList:
           type: array
+          description: List of identification objects.
           items:
             $ref: '#/components/schemas/FinancialInstrumentIdentification'
           minItems: 1
@@ -679,6 +678,7 @@ components:
     Date:
       title: Date
       type: string
+      description: Date according to ISO 8601.
       format: date
       example: '2018-04-13'
     InterestRate:
@@ -752,7 +752,7 @@ components:
           $ref: '#/components/schemas/Currency'
     Bond:
       title: Bond
-      description: Bond
+      description: Bond.
       required:
         - maturityDate
         - interestRate
@@ -801,7 +801,7 @@ components:
         - $ref: '#/components/schemas/FinancialInstrumentBase'
     Commodity:
       title: Commodity
-      description: Commodity
+      description: Commodity.
       allOf:
         - $ref: '#/components/schemas/FinancialInstrumentBase'
     ContractSize:
@@ -997,6 +997,7 @@ components:
     DateTime:
       title: DateTime
       type: string
+      description: DateTime according to ISO 8601.
       format: date-time
       example: 2018-04-13T16:00+01:00
     FxOption:
@@ -1158,6 +1159,7 @@ components:
     OtherFinancialInstrument:
       title: Other
       type: object
+      description: Other financial instrument.
       allOf:
         - $ref: '#/components/schemas/FinancialInstrumentBase'
     Position:
