@@ -500,7 +500,7 @@ components:
           type: string
           minLength: 1
           maxLength: 128
-          example: 876543219
+          example: 87654-3219
           description: Unique and unambiguous identification for the portfolio between the portfolio owner and the portfolio servicer.
         referenceCurrency:
           $ref: '#/components/schemas/Currency'
@@ -576,6 +576,7 @@ components:
     FinancialInstrumentIdentification:
       title: FinancialInstrumentIdentification
       type: object
+      description: Financial instrument identification in the form of a key value pair.
       required:
         - identifier
         - type
@@ -1516,6 +1517,7 @@ components:
         customerId:
           type: string
           description: Unique and unambiguous identification used by the bank for the customer.
+          example: 12345-6
         reversalIndicator:
           description: Indicates whether it is the reversal of a previously reported movement.
           type: boolean
@@ -1571,19 +1573,19 @@ components:
     cursor:
       in: query
       name: cursor
-      description: An opaque string value used for pagination.
       required: false
       schema:
         type: string
+      description: An opaque string value used for pagination.
     limit:
       in: query
       name: limit
-      description: Maximum number of items to return.
       required: false
       schema:
         type: integer
         format: int32
         minimum: 1
+      description: Maximum number of items to return.
     x_correlation_id_in_header:
       in: header
       name: X-Correlation-ID
@@ -1613,7 +1615,7 @@ components:
       description: Account ID parameter.
     end_of_day_indicator:
       in: query
-      name: endOfDayIndicator
+      name: end_of_day_indicator
       required: false
       schema:
         type: boolean
@@ -1624,8 +1626,8 @@ components:
         If the parameter is set to true, only resources with with the particular property set to true will be delivered.
         If the parameter is set to false, only resources with with the particular property set to false will be delivered.
     date:
-      name: date
       in: query
+      name: date
       description: A date value.
       required: true
       schema:
