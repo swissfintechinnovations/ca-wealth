@@ -7,25 +7,25 @@ info:
     email: openwealth@synpulse.com
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - description: Your Server URL
-    url: https://your-server.com/
+    url: https://your-server.com
 security:
   - OAuth2:
       - read
 tags:
   - name: accounts
-    description: Accounts operations
+    description: Accounts operations.
   - name: customers
-    description: Customer operations
+    description: Customer operations.
   - name: positions
-    description: Position operations
+    description: Position operations.
   - name: transactions
-    description: Transaction operations
+    description: Transaction operations.
 externalDocs:
   description: Find out more about OpenWealth API specifications.
-  url: https://openwealth.ch/
+  url: https://openwealth.ch
 paths:
   /customers:
     parameters:
@@ -436,13 +436,13 @@ components:
     Currency:
       title: Currency
       type: string
-      description: ISO 4217 code
+      description: ISO 4217 code.
       pattern: '[A-Z]{3}'
       example: CHF
     Customer:
       title: Customer
       type: object
-      description: Overview of the customer with the respective accounts
+      description: Overview of the customer with the respective accounts.
       required:
         - id
       properties:
@@ -497,7 +497,7 @@ components:
           minLength: 1
           maxLength: 128
           example: 876543219
-          description: Unique and unambiguous identification for the portfolio between the portfolio owner and the portfolio servicer
+          description: Unique and unambiguous identification for the portfolio between the portfolio owner and the portfolio servicer.
         referenceCurrency:
           $ref: '#/components/schemas/Currency'
     Account:
@@ -541,7 +541,7 @@ components:
     FinancialInstrumentType:
       title: FinancialInstrumentType
       type: string
-      description: Type of the financial instrument
+      description: Type of the financial instrument.
       example: equity
       enum:
         - cash
@@ -577,11 +577,11 @@ components:
           type: string
           maxLength: 128
           example: CH0012005267
-          description: Instrument identification
+          description: Instrument identification.
         type:
           type: string
           example: isin
-          description: Type of the instrument ID. isin is prefered
+          description: Type of the instrument ID. isin is prefered.
           enum:
             - isin
             - sedol
@@ -609,6 +609,7 @@ components:
       example: ESVUFR
     FinancialInstrumentBase:
       title: FinancialInstrumentBase
+      description: Base schema for a financial instrument.
       type: object
       required:
         - type
@@ -645,14 +646,14 @@ components:
           example: Group contract number 129959961
     Cash:
       title: Cash
-      description: Cash
+      description: Cash.
       allOf:
         - $ref: '#/components/schemas/FinancialInstrumentBase'
     DayCountBasis:
       title: DayCountBasis
       type: string
       example: u30_360
-      description: Interest method of the instrument
+      description: Interest method of the instrument.
       enum:
         - act_360
         - act_365
@@ -683,8 +684,8 @@ components:
           type: string
           description: |
             Indicates the type of interest, where 
-            'fixed' denotes a fixed interest rate for the agreed period
-            'variable' denotes a rate that fluctuates over time because it is based on an underlying benchmark ('basis') interest rate that changes periodically with the market
+            'fixed' denotes a fixed interest rate for the agreed period.
+            'variable' denotes a rate that fluctuates over time because it is based on an underlying benchmark ('basis') interest rate that changes periodically with the market.
             'staggered' denotes a rate that is set at different levels for different periods of time or differnt underlying principal amount.
           example: fixed
           enum:
@@ -694,7 +695,7 @@ components:
         value:
           type: number
           example: 0.00125
-          description: Current rate as decimal
+          description: Current rate as decimal.
         dayCountBasis:
           $ref: '#/components/schemas/DayCountBasis'
         paymentDate:
@@ -714,10 +715,10 @@ components:
             - other
         basis:
           type: string
-          description: Benchmark by which floating rate will adjust in accordance with market conditions, such as LIBOR, EURIBOR
+          description: Benchmark by which floating rate will adjust in accordance with market conditions, such as LIBOR, EURIBOR.
         spread:
           type: number
-          description: The floating rate will be equal to the base rate (basis) plus the spread
+          description: The floating rate will be equal to the base rate (basis) plus the spread.
     Price:
       type: object
       required:
@@ -734,7 +735,7 @@ components:
         value:
           type: number
           example: 12000
-          description: Signed decimal number
+          description: Signed decimal number.
         currency:
           $ref: '#/components/schemas/Currency'
     Bond:
@@ -773,7 +774,7 @@ components:
               description: Indicates the minimum tradable increments of a security.
     Equity:
       title: Equity
-      description: Equity, typically referred to as shareholders' equity (or owners' equity for privately held companies), represents the amount of money that would be returned to a company's shareholders if all of the assets were liquidated and all of the company's debt was paid off in the case of liquidation
+      description: Equity, typically referred to as shareholders' equity (or owners' equity for privately held companies), represents the amount of money that would be returned to a company's shareholders if all of the assets were liquidated and all of the company's debt was paid off in the case of liquidation.
       allOf:
         - $ref: '#/components/schemas/FinancialInstrumentBase'
     Fund:
@@ -795,7 +796,7 @@ components:
       title: ContractSize
       type: number
       example: 100
-      description: Contract size of the instrument
+      description: Contract size of the instrument.
       default: 1
     OptionType:
       title: OptionType
@@ -865,7 +866,7 @@ components:
           other: '#/components/schemas/OtherFinancialInstrument'
     Option:
       title: Option
-      description: An option is a financial instrument that gives the holder the right, but not the obligation, to buy or sell an underlying asset at a predetermined price within a given timeframe
+      description: An option is a financial instrument that gives the holder the right, but not the obligation, to buy or sell an underlying asset at a predetermined price within a given timeframe.
       required:
         - strikePrice
         - contractSize
@@ -917,7 +918,7 @@ components:
     CurrencyAmount:
       title: CurrencyAmount
       type: object
-      description: Amount denoted in a given currency
+      description: Amount denoted in a given currency.
       required:
         - value
         - currency
@@ -925,7 +926,7 @@ components:
         amount:
           type: number
           example: 12000
-          description: Signed amount
+          description: Signed amount.
         currency:
           $ref: '#/components/schemas/Currency'
     FxForward:
@@ -940,10 +941,10 @@ components:
         - type: object
           properties:
             amountPaid:
-              description: Amount paid at the maturity of a contract (i.e. FX forward)
+              description: Amount paid at the maturity of a contract (i.e. FX forward).
               $ref: '#/components/schemas/CurrencyAmount'
             amountReceived:
-              description: Amount received at the maturity of a contract (i.e. FX forward)
+              description: Amount received at the maturity of a contract (i.e. FX forward).
               $ref: '#/components/schemas/CurrencyAmount'
             maturityDate:
               description: Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal is repaid by the issuer to the investor.
@@ -963,19 +964,19 @@ components:
         - type: object
           properties:
             nearAmountPaid:
-              description: Amount paid at the earlier part of an FX swap
+              description: Amount paid at the earlier part of an FX swap.
               $ref: '#/components/schemas/CurrencyAmount'
             nearAmountReceived:
-              description: Amount received at the earlier part of an FX swap
+              description: Amount received at the earlier part of an FX swap.
               $ref: '#/components/schemas/CurrencyAmount'
             farAmountPaid:
-              description: Amount paid at the maturity of an FX swap
+              description: Amount paid at the maturity of an FX swap.
               $ref: '#/components/schemas/CurrencyAmount'
             farAmountReceived:
-              description: Amount received at the maturity of an FX swap
+              description: Amount received at the maturity of an FX swap.
               $ref: '#/components/schemas/CurrencyAmount'
             nearMaturityDate:
-              description: Date of the settlement of the near leg
+              description: Date of the settlement of the near leg.
               $ref: '#/components/schemas/Date'
             maturityDate:
               description: Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal is repaid by the issuer to the investor.
@@ -1025,17 +1026,17 @@ components:
         - type: object
           properties:
             principalAmount:
-              description: The current amount subject to loan on which interest is calculated
+              description: The current amount subject to loan on which interest is calculated.
               $ref: '#/components/schemas/CurrencyAmount'
             interestRate:
               $ref: '#/components/schemas/InterestRate'
             limit:
               type: number
               example: 100000
-              description: Maximum principal amount allowed by the credit contract
+              description: Maximum principal amount allowed by the credit contract.
     Credit:
       title: Credit
-      description: Credit
+      description: Credit.
       required:
         - principalAmount
       allOf:
@@ -1043,19 +1044,19 @@ components:
         - type: object
           properties:
             principalAmount:
-              description: The current amount subject to loan or borrowing on which interest is calculated
+              description: The current amount subject to loan or borrowing on which interest is calculated.
               $ref: '#/components/schemas/CurrencyAmount'
             interestRate:
               $ref: '#/components/schemas/InterestRate'
             limit:
               type: number
               example: 100000
-              description: Maximum principal amount allowed by the credit contract
+              description: Maximum principal amount allowed by the credit contract.
             underlyingFinancialInstrument:
               $ref: '#/components/schemas/FinancialInstrument'
     MoneyMarket:
       title: MoneyMarket
-      description: The money market schema covers both fixed and callable loans and deposits
+      description: The money market schema covers both fixed and callable loans and deposits.
       required:
         - principalAmount
         - interestRate
@@ -1064,7 +1065,7 @@ components:
         - type: object
           properties:
             principalAmount:
-              description: The current amount subject to loan or borrowing on which interest is calculated
+              description: The current amount subject to loan or borrowing on which interest is calculated.
               $ref: '#/components/schemas/CurrencyAmount'
             interestRate:
               $ref: '#/components/schemas/InterestRate'
@@ -1075,7 +1076,7 @@ components:
       title: InterestRateSwap
       description: An interest rate swap is a forward contract in which one stream of future interest payments is exchanged for another based on a specified principal amount.
       required:
-        - principalAmount
+        - notionalAmount
         - interestRatePaid
         - interestRateReceived
         - maturityDate
@@ -1097,9 +1098,9 @@ components:
               $ref: '#/components/schemas/Date'
     TotalReturnSwap:
       title: TotalReturnSwap
-      description: A swap agreement in which Party A pays fees to Party B in exchange for the income or return generated by an asset owned by Party B. If the private client is party A and the bank party B the property 'interestRatePaid' should be used to describe the interest, for opposite parties 'interestRateReceived',
+      description: A swap agreement in which Party A pays fees to Party B in exchange for the income or return generated by an asset owned by Party B. If the private client is party A and the bank party B the property 'interestRatePaid' should be used to describe the interest, for opposite parties 'interestRateReceived'.
       required:
-        - principalAmount
+        - notionalAmount
         - underlyingFinancialInstrument
       allOf:
         - $ref: '#/components/schemas/FinancialInstrumentBase'
@@ -1121,9 +1122,9 @@ components:
               $ref: '#/components/schemas/FinancialInstrument'
     CreditDefaultSwap:
       title: CreditDefaultSwap
-      description: A derivative product which serves as a form of insurance against the default of an underlying borrower or debt instrument
+      description: A derivative product which serves as a form of insurance against the default of an underlying borrower or debt instrument.
       required:
-        - principalAmount
+        - notionalAmount
       allOf:
         - $ref: '#/components/schemas/FinancialInstrumentBase'
         - type: object
@@ -1138,7 +1139,7 @@ components:
               $ref: '#/components/schemas/FinancialInstrument'
     CryptoAsset:
       title: CryptoAsset
-      description: Crypto Asset
+      description: Crypto Asset.
       allOf:
         - $ref: '#/components/schemas/FinancialInstrumentBase'
     OtherFinancialInstrument:
@@ -1158,7 +1159,7 @@ components:
           type: string
           maxLength: 128
           example: 876543219
-          description: Identification for the position given by the bank
+          description: Identification for the position given by the bank.
         financialInstrument:
           $ref: '#/components/schemas/FinancialInstrument'
         account:
@@ -1174,12 +1175,12 @@ components:
           type: string
           pattern: '[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}'
           example: INSECHZZXXX
-          description: BIC of the place where the securities are safe-kept, physically or notionally
+          description: BIC of the place where the securities are safe-kept, physically or notionally.
         additionalCustodianInformation:
           type: string
           pattern: '[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}'
           example: INSECHZZXXX
-          description: Used for special use cases where safekeepingPlace is not suffienct. BIC of the place where the securities are safe-kept, physically or notionally
+          description: Used for special use cases where safekeepingPlace is not suffienct. BIC of the place where the securities are safe-kept, physically or notionally.
         additionalDetails:
           type: string
           maxLength: 70
@@ -1194,7 +1195,7 @@ components:
       properties:
         type:
           type: string
-          description: Specifies the type of the amount
+          description: Specifies the type of the amount.
           example: nominal
           enum:
             - unit
@@ -1204,7 +1205,7 @@ components:
         value:
           type: number
           example: 12000
-          description: Signed decimal number
+          description: Signed decimal number.
     ForeignExchangeRate:
       title: ForeignExchangeRate
       type: object
@@ -1216,7 +1217,7 @@ components:
       properties:
         value:
           type: number
-          description: Current rate as decimal
+          description: Current rate as decimal.
         sourceCurrency:
           $ref: '#/components/schemas/Currency'
         targetCurrency:
@@ -1234,12 +1235,12 @@ components:
             sourceOfRate:
               type: string
               maxLength: 70
-              description: Indicates the source of the (market) price
+              description: Indicates the source of the (market) price.
               example: Reuters 4 o'clock
     Valuation:
       title: Valuation
       type: object
-      description: Detailed information about the valuation of a position
+      description: Detailed information about the valuation of a position.
       required:
         - value
       properties:
@@ -1264,7 +1265,7 @@ components:
             sourceOfPrice:
               type: string
               maxLength: 70
-              description: Indicates the source of the (market)price
+              description: Indicates the source of the (market)price.
               example: SIX Swiss Exchange
     ValuatedPosition:
       title: ValuatedPosition
@@ -1307,7 +1308,7 @@ components:
     TransactionType:
       title: TransactionType
       type: string
-      description: Type of the transaction
+      description: Type of the transaction.
       example: buy
       enum:
         - accumulation
@@ -1383,7 +1384,7 @@ components:
       title: MovementType
       type: string
       description: Describes which kind of movement is reported from a banks perspective.
-      example: security
+      example: cash
       enum:
         - accruedInterest
         - additionalWithholdingTax
@@ -1461,7 +1462,7 @@ components:
       properties:
         amount:
           type: number
-          description: Signed amount of the cash transaction
+          description: Signed amount of the cash transaction.
           example: 13023
         currency:
           $ref: '#/components/schemas/Currency'
@@ -1483,11 +1484,11 @@ components:
           readOnly: true
           maxLength: 128
           example: 987654321
-          description: Transaction ID given by the bank
+          description: Transaction ID given by the bank.
         type:
           $ref: '#/components/schemas/TransactionType'
         transactionDate:
-          description: Date of transaction entity
+          description: Date of transaction entity.
           $ref: '#/components/schemas/Date'
         customerId:
           type: string
@@ -1510,7 +1511,7 @@ components:
         reversedTransactionId:
           type: string
           maxLength: 128
-          description: States the identification of the transaction that was reversed
+          description: States the identification of the transaction that was reversed.
           example: 2134123415
         tradeDate:
           description: Specifies the date/time on which the trade was executed.
@@ -1524,7 +1525,7 @@ components:
           $ref: '#/components/schemas/Quantity'
         movementList:
           type: array
-          description: List of movements belonging to a transaction from a banks perspective
+          description: List of movements belonging to a transaction from a banks perspective.
           items:
             $ref: '#/components/schemas/Movement'
         postingAmountList:
@@ -1543,7 +1544,7 @@ components:
     cursor:
       name: cursor
       in: query
-      description: An opaque string value used for pagination
+      description: An opaque string value used for pagination.
       required: false
       schema:
         type: string
@@ -1738,12 +1739,12 @@ components:
       schema:
         type: string
     Problem-Content-Type:
-      description: application/problem+json; charset=utf-8 according to RFC7807
+      description: application/problem+json; charset=utf-8 according to RFC7807.
       schema:
         type: string
         example: application/problem+json
     Content-Language:
-      description: Response language - always en
+      description: Response language - always en.
       schema:
         type: string
         example: en
