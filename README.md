@@ -13,3 +13,5 @@ An easy-to-read representation of the Wealth APIs is accessible via the followin
 - [Custody Services API](https://editor.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-wealth/main/CustodyServices.yaml)
 - [Customer Management API](https://editor.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-wealth/main/CustomerManagement.yaml)
 - [Order Placement API](https://editor.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-wealth/main/OrderPlacement.yaml)
+
+Note: SFTI's standardization recommendations for payment APIs can be implemented individually at each interested FI. A leading implementation of those APIs is currently realized in coordination with the Open Banking platform [bLink](https://blink.six-group.com/) of SIX.
