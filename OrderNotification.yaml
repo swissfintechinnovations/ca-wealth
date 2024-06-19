@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   version: 2.2.1
   title: OpenWealth Order Placement Event Notification API - TPP Endpoint
-  description: API for Receiving Event Notification for OpenWealth APIs
+  description: API for Receiving Event Notification for OpenWealth APIs.
   contact:
     email: openwealth@synpulse.com
   license:
