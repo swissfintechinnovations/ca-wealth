@@ -116,10 +116,10 @@ paths:
       - in: path
         name: clientOrderId
         required: true
-        description: The security order id. This Id corresponds with the clientOrderIdentification.
         schema:
           type: string
           maxLength: 20
+        description: The security order id. This Id corresponds with the clientOrderIdentification.
       - $ref: '#/components/parameters/correlation_in_header'
     get:
       summary: Returns a single security order
@@ -439,58 +439,58 @@ components:
     limit:
       in: query
       name: limit
-      description: Maximum number of items to return.
       required: false
       schema:
         type: integer
         format: int32
         minimum: 1
+      description: Maximum number of items to return.
     cursor:
       in: query
       name: cursor
-      description: An opaque string value used for pagination.
       required: false
       schema:
         type: string
+      description: An opaque string value used for pagination.
     correlation_in_header:
       in: header
       name: X-Correlation-ID
-      description: Unique ID (defined by the caller) which will be reflected back in the response.
       required: true
       schema:
         type: string
+      description: Unique ID (defined by the caller) which will be reflected back in the response.
     path_eventSubscriptionId:
       in: path
       name: eventSubscriptionId
-      description: Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
       required: true
       schema:
         type: string
         minLength: 1
         maxLength: 40
+      description: Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
     fromEventDateTime:
       in: query
       name: fromEventDate
-      description: Date from which events are considered.
       schema:
         type: string
         format: date-time
+      description: Date from which events are considered.
       example: 2022-10-26T07:58:30.996+0100
     afterEventId:
       in: query
       name: afterEventId
-      description: Event Id after which events are considered.
       schema:
         $ref: '#/components/schemas/eventSubscriptionId'
+      description: Event Id after which events are considered.
     Limit:
       in: query
       name: limit
-      description: Maximum number of items to return.
       required: false
       schema:
         type: integer
         format: int32
         minimum: 1
+      description: Maximum number of items to return.
   headers:
     X-Correlation-ID:
       description: Client defined ID from request to correlates HTTP requests between a client and server.
@@ -726,6 +726,7 @@ components:
         proprietary:
           type: string
           description: Cancelled reason expressed as a proprietary description that provides more details about the reason of the cancellation.
+          example: Cancelled by client.
     executedQuantity:
       type: string
       pattern: ^[0-9]{1,12}([.][0-9]{1,9})?$
@@ -787,7 +788,7 @@ components:
           type: string
           pattern: ^[0-9]{1,12}([.][0-9]{1,9})?$
           maxLength: 22
-          example: 1.0963
+          example: '1.0963'
           description: Indicates the rate of a fx transaction for one source currency unit to the target currency. E.g. 1GBP=xxxEUR, where the source currency is GBP and the target currency is EUR.
         targetCurrency:
           description: Currency into which an amount is to be converted in a currency conversion.
@@ -893,7 +894,7 @@ components:
           description: |
             Unambiguous identifier of the individual allocation of the bulk order, as assigned by the confirming party.
             Corresponds with the transactionIdentification of the OpenWealth Custody Services API.
-          example: 123123123
+          example: 123-123123
         executedQuantity:
           description: Total quantity (e.g. number of shares) filled.
           $ref: '#/components/schemas/executedQuantity'
