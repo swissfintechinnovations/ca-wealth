@@ -8,10 +8,15 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
+
 servers:
   - description: Your Server URL
     url: https://your-server.com
-security: []
+
+externalDocs:
+  description: Find out more about OpenWealth API specifications.
+  url: https://openwealth.ch
+
 tags:
   - name: accounts
     description: Accounts operations.
@@ -21,9 +26,9 @@ tags:
     description: Position operations.
   - name: transactions
     description: Transaction operations.
-externalDocs:
-  description: Find out more about OpenWealth API specifications.
-  url: https://openwealth.ch
+
+security: []
+
 paths:
   /customers:
     parameters:
@@ -1557,29 +1562,6 @@ components:
           description: Provides additional details on the transaction which can not be included within the structured fields of the message.
           example: Replaces transaction nr. 12234567489
   parameters:
-    cursor:
-      in: query
-      name: cursor
-      required: false
-      schema:
-        type: string
-      description: An opaque string value used for pagination.
-    limit:
-      in: query
-      name: limit
-      required: false
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-      description: Maximum number of items to return.
-    x_correlation_id_in_header:
-      in: header
-      name: X-Correlation-ID
-      required: true
-      schema:
-        type: string
-      description: Unique ID (defined by the caller) which will be reflected back in the response.
     path_customerId:
       in: path
       name: customerId
@@ -1600,6 +1582,42 @@ components:
         maxLength: 128
         description: The customer's account identification, this should NOT be an IBAN.
       description: Account ID parameter.
+    path_positionId:
+      in: path
+      name: positionId
+      required: true
+      schema:
+        type: string
+        maxLength: 128
+        description: Identification for the position given by the bank.
+        example: 1234566-12-1
+      description: Position ID parameter.
+    path_transactionId:
+      in: path
+      name: transactionId
+      required: true
+      schema:
+        type: string
+        maxLength: 128
+        description: Identification for the transaction given by the bank.
+        example: 1234566-12-7
+      description: Transaction ID.
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+      description: An opaque string value used for pagination.
+    limit:
+      in: query
+      name: limit
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+      description: Maximum number of items to return.
     end_of_day_indicator:
       in: query
       name: end_of_day_indicator
@@ -1622,26 +1640,13 @@ components:
         format: date
         description: Full-date according to ISO 8601 i.e. YYYY-MM-DD format.
         example: '2019-12-31'
-    path_positionId:
-      in: path
-      name: positionId
+    x_correlation_id_in_header:
+      in: header
+      name: X-Correlation-ID
       required: true
       schema:
         type: string
-        maxLength: 128
-        description: Identification for the position given by the bank.
-        example: 1234566-12-1
-      description: Position ID parameter.
-    path_transactionId:
-      in: path
-      name: transactionId
-      required: true
-      schema:
-        type: string
-        maxLength: 128
-        description: Identification for the transaction given by the bank.
-        example: 1234566-12-7
-      description: Transaction ID.
+      description: Unique ID (defined by the caller) which will be reflected back in the response.
   securitySchemes: {}
   responses:
     '400':
