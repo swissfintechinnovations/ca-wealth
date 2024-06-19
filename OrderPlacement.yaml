@@ -36,7 +36,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/correlation_in_header'
     post:
-      summary: Posts a new order.
+      summary: Posts a new order
       description: Posts a new order.
       operationId: postOrder
       tags:
@@ -73,7 +73,7 @@ paths:
         '503':
           $ref: '#/components/responses/503'
     get:
-      summary: Returns a list of open security orders.
+      summary: Returns a list of open security orders
       description: Returns all open orders to which the user of the API has access to. Paging is done based on the order object, i.e. if limit is set to 1, then 1 order will be returned per page.
       operationId: getOrders
       tags:
@@ -113,8 +113,8 @@ paths:
           $ref: '#/components/responses/503'
   /orders/{clientOrderId}:
     parameters:
-      - name: clientOrderId
-        in: path
+      - in: path
+        name: clientOrderId
         required: true
         description: The security order id. This Id corresponds with the clientOrderIdentification.
         schema:
@@ -122,7 +122,7 @@ paths:
           maxLength: 20
       - $ref: '#/components/parameters/correlation_in_header'
     get:
-      summary: Returns a single security order.
+      summary: Returns a single security order
       description: Returns a specific security order.
       operationId: getOrderByClientOrderId
       tags:
@@ -154,7 +154,7 @@ paths:
         '503':
           $ref: '#/components/responses/503'
     delete:
-      summary: Cancellation of a specific order.
+      summary: Cancellation of a specific order
       description: Places the cancellation request for a specific order.
       operationId: deleteOrderByClientOrderId
       tags:
@@ -189,7 +189,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/correlation_in_header'
     get:
-      summary: Returns list of accounts the requestor has access to.
+      summary: Returns list of accounts the requestor has access to
       description: Returns list of accounts the requestor has access to with the type of access the requestor has. Paging is done based on the accountaccess object, i.e. if limit is set to 1, then 1 accountaccess object will be returned per page.
       operationId: getAccountAccesses
       tags:
@@ -381,7 +381,7 @@ paths:
           $ref: '#/components/responses/504'
     delete:
       summary: Delete event subscription
-      description: Deletes event subscriptions
+      description: Deletes event subscriptions.
       operationId: deleteEventSubscriptionsByEventSubscriptionId
       tags:
         - event-notification-subscription
@@ -416,12 +416,13 @@ paths:
       - $ref: '#/components/parameters/afterEventId'
       - $ref: '#/components/parameters/Limit'
     get:
-      description: Get aggregated event-notification list
+      summary: Get event notifications
+      description: Get aggregated event-notification list.
       tags:
         - event-notification
       responses:
         '200':
-          description: aggregated event-notification list
+          description: aggregated event-notification list.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -436,8 +437,8 @@ paths:
 components:
   parameters:
     limit:
-      name: limit
       in: query
+      name: limit
       description: Maximum number of items to return.
       required: false
       schema:
@@ -445,9 +446,9 @@ components:
         format: int32
         minimum: 1
     cursor:
-      name: cursor
       in: query
-      description: An opaque string value used for pagination
+      name: cursor
+      description: An opaque string value used for pagination.
       required: false
       schema:
         type: string
@@ -459,8 +460,8 @@ components:
       schema:
         type: string
     path_eventSubscriptionId:
-      name: eventSubscriptionId
       in: path
+      name: eventSubscriptionId
       description: Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
       required: true
       schema:
@@ -468,20 +469,22 @@ components:
         minLength: 1
         maxLength: 40
     fromEventDateTime:
-      name: fromEventDate
       in: query
+      name: fromEventDate
+      description: Date from which events are considered.
       schema:
         type: string
         format: date-time
       example: 2022-10-26T07:58:30.996+0100
     afterEventId:
-      name: afterEventId
       in: query
+      name: afterEventId
+      description: Event Id after which events are considered.
       schema:
         $ref: '#/components/schemas/eventSubscriptionId'
     Limit:
-      name: limit
       in: query
+      name: limit
       description: Maximum number of items to return.
       required: false
       schema:
@@ -509,7 +512,7 @@ components:
       type: string
       pattern: ^[0-9]{1,12}([.][0-9]{1,9})?$
       maxLength: 22
-      example: 12000
+      example: '12000'
       description: Absolute amount.
     orderQuantity:
       type: object
@@ -736,7 +739,7 @@ components:
       description: |
         Quantity open for further execution.
         If the status is cancelled,  expired, or rejected (in which case the order is no longer active) then remainingQuantity could be 0, otherwise remainingQuantity = orderQuantity - executedQuantity.
-      example: 20
+      example: '20'
     remainingAllocation:
       type: object
       description: Provides an overview of what quantity has already been allocated to the allocation and what quantity is still outstanding.
@@ -859,6 +862,7 @@ components:
             - thirdPartyFee
             - otherFee
             - others
+          example: stampDuty
         amount:
           $ref: '#/components/schemas/amount'
         currency:
@@ -925,7 +929,7 @@ components:
       properties:
         clientOrderIdentification:
           type: string
-          example: 123123123
+          example: 123-123123
           description: Unambiguous identifier for the bulk order, as assigned by the instructing party.
           maxLength: 20
         orderDateTime:
@@ -937,7 +941,7 @@ components:
         orderIdentification:
           type: string
           description: Unambiguous identifier for the bulk order, as assigned by the confirming party.
-          example: 321321321
+          example: 321-321321
           readOnly: true
         bulkOrderDetails:
           $ref: '#/components/schemas/bulkOrderDetails'
@@ -1028,6 +1032,7 @@ components:
         proprietary:
           type: string
           description: Cancelled reason expressed as a proprietary description that provides more details about the reason of the cancellation.
+          example: Cancelled by client
     dayOrderQuantity:
       type: string
       pattern: ^[0-9]{1,12}([.][0-9]{1,9})?$
@@ -1088,7 +1093,7 @@ components:
           type: string
           pattern: ^[0-9]{1,12}([.][0-9]{1,9})?$
           maxLength: 22
-          example: 100
+          example: '100'
           description: |
             For Fixed Income: Amorization Factor for deriving Current face from Original face for ABS or MBS securities.
             Note the fraction may be greater than, equal to or less than.
@@ -1172,7 +1177,7 @@ components:
       properties:
         clientOrderIdentification:
           type: string
-          example: 123123123
+          example: 123-123123
           description: Unambiguous identifier for the bulk order, as assigned by the instructing party.
           maxLength: 20
         orderDateTime:
@@ -1184,7 +1189,7 @@ components:
         orderIdentification:
           type: string
           description: Unambiguous identifier for the bulk order, as assigned by the confirming party.
-          example: 321321321
+          example: 321-321321
           readOnly: true
         bulkOrderDetails:
           $ref: '#/components/schemas/bulkOrderDetails'
@@ -1206,6 +1211,7 @@ components:
           enum:
             - read
             - write
+          example: read
     eventSubscriptionId:
       description: Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
       type: string
