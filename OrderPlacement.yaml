@@ -414,7 +414,7 @@ paths:
       - $ref: '#/components/parameters/path_eventSubscriptionId'
       - $ref: '#/components/parameters/fromEventDateTime'
       - $ref: '#/components/parameters/afterEventId'
-      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/limit'
     get:
       summary: Get event notifications
       description: Get aggregated event-notification list.
@@ -436,6 +436,15 @@ paths:
           $ref: '#/components/responses/404'
 components:
   parameters:
+    path_eventSubscriptionId:
+      in: path
+      name: eventSubscriptionId
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 40
+      description: Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
     limit:
       in: query
       name: limit
@@ -452,22 +461,6 @@ components:
       schema:
         type: string
       description: An opaque string value used for pagination.
-    correlation_in_header:
-      in: header
-      name: X-Correlation-ID
-      required: true
-      schema:
-        type: string
-      description: Unique ID (defined by the caller) which will be reflected back in the response.
-    path_eventSubscriptionId:
-      in: path
-      name: eventSubscriptionId
-      required: true
-      schema:
-        type: string
-        minLength: 1
-        maxLength: 40
-      description: Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
     fromEventDateTime:
       in: query
       name: fromEventDate
@@ -482,15 +475,13 @@ components:
       schema:
         $ref: '#/components/schemas/eventSubscriptionId'
       description: Event Id after which events are considered.
-    Limit:
-      in: query
-      name: limit
-      required: false
+    correlation_in_header:
+      in: header
+      name: X-Correlation-ID
+      required: true
       schema:
-        type: integer
-        format: int32
-        minimum: 1
-      description: Maximum number of items to return.
+        type: string
+      description: Unique ID (defined by the caller) which will be reflected back in the response.
   headers:
     X-Correlation-ID:
       description: Client defined ID from request to correlates HTTP requests between a client and server.
