@@ -575,7 +575,7 @@ components:
       type: string
       pattern: ^[0-9]{1,12}([.][0-9]{1,9})?$
       maxLength: 22
-      description: Limit price per unit of quantity (e.g. per share)
+      description: Limit price per unit of quantity (e.g. per share).
       example: '17.8'
     stopPrice:
       type: string
@@ -623,7 +623,7 @@ components:
           $ref: '#/components/schemas/Currency'
         executionType:
           type: string
-          description: Type of the execution of the order
+          description: Type of the execution of the order.
           example: limit
           enum:
             - market
@@ -663,7 +663,7 @@ components:
           type: string
           maxLength: 35
           example: 8765-43219
-          description: Unambiguous identification for the account
+          description: Unambiguous identification for the account.
         type:
           type: string
           description: Indicates the type of the account.
@@ -1292,7 +1292,7 @@ components:
         eventType:
           $ref: '#/components/schemas/eventType'
         resourceLink:
-          description: Link to resource that triggered the event notification
+          description: Link to resource that triggered the event notification.
           type: string
           example: /api/openwealth/order-placement/v2/orders/abcd1234
         created:
@@ -1305,7 +1305,7 @@ components:
           description: Identification (UUID) of the notification that predeceeds this notification.
           $ref: '#/components/schemas/notificationId'
         orderStatus:
-          description: Status of the requested resource notification
+          description: Status of the requested resource notification.
           $ref: '#/components/schemas/orderStatus'
         executedQuantity:
           description: Total quantity (e.g. number of shares) filled.
