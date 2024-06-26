@@ -817,9 +817,6 @@ components:
             maturityDate:
               description: Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal is repaid by the issuer to the investor.
               $ref: '#/components/schemas/Date'
-            nextInterestPaymentDate:
-              description: Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal is repaid by the issuer to the investor.
-              $ref: '#/components/schemas/Date'
             issueDate:
               description: Date at which the security was made available.
               $ref: '#/components/schemas/Date'
