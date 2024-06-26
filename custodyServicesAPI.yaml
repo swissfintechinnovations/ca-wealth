@@ -525,7 +525,7 @@ components:
           description: Unique and unambiguous identification for the account. The IBAN should NOT be the account identifier.
         type:
           type: string
-          description: Indicatates the type of the account. If the account type is cashAccount, no information on the financial instrument is provided in the respective position in the account.
+          description: Indicates the type of the account. If the account type is cashAccount, no information on the financial instrument is provided in the respective position in the account.
           example: cashAccount
           enum:
             - cashAccount
@@ -540,7 +540,7 @@ components:
           $ref: '#/components/schemas/Currency'
         iban:
           type: string
-          description: Contains the accounts Internatioinal Banking Account Number (IBAN) for a cashAccount if available.
+          description: Contains the accounts International Banking Account Number (IBAN) for a cashAccount if available.
           maxLength: 34
           example: CH123456789
         designation:
@@ -594,7 +594,7 @@ components:
         type:
           type: string
           example: isin
-          description: Type of the instrument ID. isin is prefered.
+          description: Type of the instrument ID. isin is preferred.
           enum:
             - isin
             - sedol
@@ -701,7 +701,7 @@ components:
             Indicates the type of interest, where
             'fixed' denotes a fixed interest rate for the agreed period.
             'variable' denotes a rate that fluctuates over time because it is based on an underlying benchmark ('basis') interest rate that changes periodically with the market.
-            'staggered' denotes a rate that is set at different levels for different periods of time or differnt underlying principal amount.
+            'staggered' denotes a rate that is set at different levels for different periods of time or different underlying principal amount.
           example: fixed
           enum:
             - fixed
