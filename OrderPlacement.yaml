@@ -680,7 +680,9 @@ components:
         - amount
       properties:
         accounts:
-          $ref: '#/components/schemas/account'
+          type: array
+          items:
+            $ref: '#/components/schemas/account'
         clientAllocationIdentification:
           type: string
           description: Unambiguous identifier for the individual allocation of the bulk order, as assigned by the instructing party.
