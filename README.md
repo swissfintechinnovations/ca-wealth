@@ -2,10 +2,12 @@
 ![ca-wealth](https://user-images.githubusercontent.com/116151702/236239144-3c899e32-a88c-4890-816e-ec45bcadc6e1.png)
 
 ---
-[![GitHub release](https://img.shields.io/github/release/swissfintechinnovations/ca-wealth)](https://github.com/swissfintechinnovations/ca-wealth/releases/)
-![GitHub checks](https://img.shields.io/github/checks-status/swissfintechinnovations/ca-wealth/main)
-![Swagger Validator](https://img.shields.io/swagger/valid/3.0?specUrl=https%3A%2F%2Fraw.githubusercontent.com%2FOAI%2FOpenAPI-Specification%2Fmaster%2Fexamples%2Fv2.0%2Fjson%2Fpetstore-expanded.json)
-[![GitHub license](https://img.shields.io/github/license/swissfintechinnovations/ca-wealth)](https://github.com/swissfintechinnovations/ca-wealth/blob/main/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/swissfintechinnovations/ca-wealth?color=blue)](https://github.com/swissfintechinnovations/ca-wealth/releases/)
+[![GitHub Action Status OpenAPI](https://img.shields.io/github/actions/workflow/status/swissfintechinnovations/ca-wealth/lint-openapi.yaml?branch=main&label=openapi%20checks)](https://github.com/swissfintechinnovations/ca-wealth/actions/workflows/lint-openapi.yaml)
+[![GitHub Action Status Yaml](https://img.shields.io/github/actions/workflow/status/swissfintechinnovations/ca-wealth/lint-yaml.yaml?branch=main&label=yaml%20checks)](https://github.com/swissfintechinnovations/ca-wealth/actions/workflows/lint-yaml.yaml)
+[![GitHub Action Status Swagger Validator](https://img.shields.io/github/actions/workflow/status/swissfintechinnovations/ca-wealth/swagger-validator.yaml?branch=main&label=swagger%20validation)](https://github.com/swissfintechinnovations/ca-wealth/actions/workflows/swagger-validator.yaml)
+[![OpenAPI version](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fgithub.com%2Fswissfintechinnovations%2Fca-wealth%2Fraw%2Fmain%2FCustodyServices.yaml&query=openapi&prefix=v&label=OpenAPI&color=blue)](https://swagger.io/resources/open-api/)
+[![GitHub license](https://img.shields.io/github/license/swissfintechinnovations/ca-wealth?color=de980d)](https://github.com/swissfintechinnovations/ca-wealth/blob/main/LICENSE)
 
 This is the official SFTI repo for the wealth API. Documentations may be found in the [Wiki](https://github.com/swissfintechinnovations/ca-wealth/wiki).
 
