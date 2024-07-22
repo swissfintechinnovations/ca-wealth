@@ -724,7 +724,8 @@ components:
           description: |
             Indicates the type of interest, where
             - 'fixed' denotes a fixed interest rate for the agreed period.
-            - 'variable' denotes a rate that fluctuates over time because it is based on an underlying benchmark ('basis') interest rate that changes periodically with the market.
+            - 'variable' denotes a rate that fluctuates over time because it is based on an underlying benchmark ('basis') interest rate
+            that changes periodically with the market.
             - 'staggered' denotes a rate that is set at different levels for different periods of time or different underlying principal amount.
           example: fixed
           enum:
@@ -896,7 +897,9 @@ components:
     OptionType:
       title: OptionType
       type: string
-      description: Specifies whether it is a Call option (right to purchase a specific underlying asset) or a Put option (right to sell a specific underlying asset).
+      description: >
+        Specifies whether it is a Call option (right to purchase a specific underlying asset)
+        or a Put option (right to sell a specific underlying asset).
       example: call
       enum:
         - call
@@ -1252,7 +1255,9 @@ components:
           type: string
           pattern: '[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}'
           example: INSECHZZXXX
-          description: Used for special use cases where safekeepingPlace is not sufficient. BIC of the place where the securities are safe-kept, physically or notionally.
+          description: >
+            Used for special use cases where safekeepingPlace is not sufficient. BIC of the place where the securities are safe-kept,
+            physically or notionally.
         additionalDetails:
           type: string
           maxLength: 70
@@ -1379,7 +1384,9 @@ components:
           example: 34
           description: Number of days used for calculating the accrued interest amount.
         blockedQuantity:
-          description: Indicates the amount of the position which is blocked, i.e. not freely available, e.g. for trading. The amount is of the same amountType as the position itself.
+          description: >
+            Indicates the amount of the position which is blocked, i.e. not freely available, e.g. for trading.
+            The amount is of the same amountType as the position itself.
           $ref: '#/components/schemas/Quantity'
     TransactionType:
       title: TransactionType
@@ -1504,7 +1511,9 @@ components:
         type:
           $ref: '#/components/schemas/MovementType'
         movementDate:
-          description: Date when the movement was confirmed in the source ledger. This typically corresponds with the booking date (or posting date) by the bank.
+          description: >
+            Date when the movement was confirmed in the source ledger. This typically corresponds with the booking date
+            (or posting date) by the bank.
           $ref: '#/components/schemas/Date'
         financialInstrument:
           $ref: '#/components/schemas/FinancialInstrument'
@@ -1724,7 +1733,9 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-Id:
           $ref: '#/components/headers/X-Correlation-Id'
-      description: Bad Request - The server cannot or will not process the request due to something that is perceived to be a client error as malformed request syntax.
+      description: >
+        Bad Request - The server cannot or will not process the request due to something that is perceived to be a client error
+        as malformed request syntax.
       content:
         application/problem+json:
           schema:
@@ -1763,7 +1774,9 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-Id:
           $ref: '#/components/headers/X-Correlation-Id'
-      description: Not Found - The origin server did not find a current representation for the target resource or is not willing to disclose that one exists.
+      description: >
+        Not Found - The origin server did not find a current representation for the target resource
+        or is not willing to disclose that one exists.
       content:
         application/problem+json:
           schema:
@@ -1776,7 +1789,9 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-Id:
           $ref: '#/components/headers/X-Correlation-Id'
-      description: Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+      description: >
+        Method Not Allowed - The method received in the request-line is known by the origin server
+        but not supported by the target resource.
       content:
         application/problem+json:
           schema:
