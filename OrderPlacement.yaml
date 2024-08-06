@@ -81,6 +81,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/correlation_in_header'
       responses:
         '200':
           description: Order list.
@@ -119,13 +120,7 @@ paths:
       description: Returns a specific security order.
       operationId: getOrderByClientOrderId
       parameters:
-        - in: path
-          name: clientOrderId
-          required: true
-          schema:
-            type: string
-            maxLength: 20
-          description: The security order id. This Id corresponds with the clientOrderIdentification.
+        - $ref: '#/components/parameters/path_clientOrderId'
         - $ref: '#/components/parameters/correlation_in_header'
       responses:
         '200':
@@ -160,13 +155,7 @@ paths:
       description: Places the cancellation request for a specific order.
       operationId: deleteOrderByClientOrderId
       parameters:
-        - in: path
-          name: clientOrderId
-          required: true
-          schema:
-            type: string
-            maxLength: 20
-          description: The security order id. This Id corresponds with the clientOrderIdentification.
+        - $ref: '#/components/parameters/path_clientOrderId'
         - $ref: '#/components/parameters/correlation_in_header'
       responses:
         '202':
@@ -240,6 +229,8 @@ paths:
       summary: Subscribe to Events
       description: Allows TPP to subscribe to specific events for the API.
       operationId: postEventSubscription
+      parameters:
+        - $ref: '#/components/parameters/correlation_in_header'
       requestBody:
         content:
           application/json:
@@ -276,11 +267,13 @@ paths:
         '504':
           $ref: '#/components/responses/504'
     get:
+      tags:
+        - event-notification-subscription
       summary: View Subscriptions
       description: Allows TPP to view the event subscriptions.
       operationId: getEventSubscriptions
-      tags:
-        - event-notification-subscription
+      parameters:
+        - $ref: '#/components/parameters/correlation_in_header'
       responses:
         '200':
           description: Event Subscription read.
@@ -320,6 +313,7 @@ paths:
       operationId: getEventSubscriptionByEventSubscriptionId
       parameters:
         - $ref: '#/components/parameters/path_eventSubscriptionId'
+        - $ref: '#/components/parameters/correlation_in_header'
       responses:
         '200':
           description: Event Subscription read.
@@ -356,6 +350,7 @@ paths:
       operationId: changeEventSubscriptionByEventSubscriptionId
       parameters:
         - $ref: '#/components/parameters/path_eventSubscriptionId'
+        - $ref: '#/components/parameters/correlation_in_header'
       requestBody:
         required: true
         content:
@@ -398,6 +393,7 @@ paths:
       operationId: deleteEventSubscriptionsByEventSubscriptionId
       parameters:
         - $ref: '#/components/parameters/path_eventSubscriptionId'
+        - $ref: '#/components/parameters/correlation_in_header'
       responses:
         '204':
           description: Event subscription deleted.
@@ -433,6 +429,7 @@ paths:
         - $ref: '#/components/parameters/fromEventDateTime'
         - $ref: '#/components/parameters/afterEventId'
         - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/correlation_in_header'
       responses:
         '200':
           description: aggregated event-notification list.
@@ -449,6 +446,14 @@ paths:
           $ref: '#/components/responses/404'
 components:
   parameters:
+    path_clientOrderId:
+      in: path
+      name: clientOrderId
+      required: true
+      schema:
+        type: string
+        maxLength: 20
+      description: The security order id. This Id corresponds with the clientOrderIdentification.
     path_eventSubscriptionId:
       in: path
       name: eventSubscriptionId
