@@ -31,6 +31,8 @@ paths:
       summary: Push notification towards TPP
       description: Push notficiations for subscribed event notifications.
       operationId: postEventNotification
+      parameters:
+        - $ref: '#/components/parameters/correlation_in_header'
       requestBody:
         content:
           application/json:
@@ -47,6 +49,14 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 components:
+  parameters:
+    correlation_in_header:
+      in: header
+      name: X-Correlation-ID
+      required: true
+      schema:
+        type: string
+      description: Unique ID (defined by the caller) which will be reflected back in the response.
   schemas:
     eventSubscriptionId:
       description: Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
