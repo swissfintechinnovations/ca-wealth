@@ -76,7 +76,7 @@ paths:
       tags:
         - orderstatus
       summary: Returns a list of open security orders
-      description: >
+      description: |
         Returns all open orders to which the user of the API has access to. Paging is done based on the order object,
         i.e. if limit is set to 1, then 1 order will be returned per page.
       operationId: getOrders
@@ -190,11 +190,10 @@ paths:
       tags:
         - accountaccess
       summary: Returns list of accounts the requestor has access to
-      description: >
+      description: |
         Returns list of accounts the requestor has access to with the type of access the requestor has. Paging is done based on the accountaccess
         object, i.e. if limit is set to 1, then 1 accountaccess object will be returned per page.
       operationId: getAccountAccesses
-
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
@@ -529,6 +528,7 @@ components:
       description: Absolute amount.
     orderQuantity:
       type: object
+      description: Ordered quantity.
       properties:
         amount:
           $ref: '#/components/schemas/amount'
@@ -581,7 +581,7 @@ components:
         marketIdentificationCode:
           type: string
           maxLength: 4
-          description: >
+          description: |
             Market Identifier Code. Identification of a financial market, as stipulated in the norm ISOMarket Identifier Code.
             Identification of a financial market, as stipulated in the norm ISO 10383 "Codes for exchanges and market identifications".
           example: XSWX
@@ -680,6 +680,11 @@ components:
             - goodForMonth
         expiryDateTime:
           $ref: '#/components/schemas/dateTime'
+        additionalDetails:
+          type: string
+          maxLength: 128
+          description: Provides additional details on the order which can not be included within the structured fields of the message.
+          example: at pre Market and today
     account:
       type: object
       properties:
@@ -807,7 +812,7 @@ components:
           pattern: '^[0-9]{1,12}([.][0-9]{1,9})?$'
           maxLength: 22
           example: '1.0963'
-          description: >
+          description: |
             Indicates the rate of a fx transaction for one source currency unit to the target currency. E.g. 1GBP=xxxEUR, where the source
             currency is GBP and the target currency is EUR.
         targetCurrency:
@@ -996,7 +1001,7 @@ components:
       type: string
       format: date-time
       example: '2018-04-13T11:11:11Z'
-      description: >
+      description: |
         Indicates the date and time at which the status has been updated into the status indicated under "status" (UTC Timestamp). In accordance
         with ISO 8601.
     orderCancellationReason:
@@ -1265,7 +1270,7 @@ components:
         eventSubscriptionId:
           $ref: '#/components/schemas/eventSubscriptionId'
         callbackUrl:
-          description: >
+          description: |
             Callback URL for a TPP hosted service. Will be used by API exposing party, in conjunction with the resource name, to construct a URL
             to send event notifications to.
           type: string
@@ -1282,7 +1287,7 @@ components:
         - callbackUrl
       properties:
         callbackUrl:
-          description: >
+          description: |
             Callback URL for a TPP hosted service. Will be used by API exposing party, in conjunction with the resource name, to construct a URL
             to send event notifications to.
           type: string
@@ -1350,7 +1355,7 @@ components:
           description: Calculated average price of all fills on this order.
           $ref: '#/components/schemas/averagePrice'
         remainingQuantity:
-          description: >
+          description: |
             Quantity open for further execution.
             If the status is cancelled, expired, or rejected (in which case the order is no longer active) then remainingQuantity could be 0,
             otherwise remainingQuantity = orderQuantity - executedQuantity.
@@ -1385,7 +1390,7 @@ components:
             type: string
             description: Client defined ID from request to correlates HTTP requests between a client and server.
             example: f058ebd6-02f7-4d3f-942e-904344e8cde5
-      description: >
+      description: |
         Bad Request - The server cannot or will not process the request due to something that is perceived to be a client error as malformed
         request syntax.
       content:
@@ -1453,7 +1458,7 @@ components:
             type: string
             description: Client defined ID from request to correlates HTTP requests between a client and server.
             example: f058ebd6-02f7-4d3f-942e-904344e8cde5
-      description: >
+      description: |
         Not Found - The origin server did not find a current representation for the target resource or is not willing to disclose that one
         exists.
       content:
@@ -1477,8 +1482,9 @@ components:
             type: string
             description: Client defined ID from request to correlates HTTP requests between a client and server.
             example: f058ebd6-02f7-4d3f-942e-904344e8cde5
-      description: >
-        Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+      description: |
+        Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the
+        target resource.
       content:
         application/problem+json:
           schema:
@@ -1566,8 +1572,9 @@ components:
             type: string
             description: Client defined ID from request to correlates HTTP requests between a client and server.
             example: f058ebd6-02f7-4d3f-942e-904344e8cde5
-      description: >
-        Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+      description: |
+        Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled
+        maintenance.
       content:
         application/problem+json:
           schema:
