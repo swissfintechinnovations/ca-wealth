@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 3.0.2
+  version: 3.1.0
   title: Custody Services
   description: |
     This API is part of the OpenWealth APIs for the connectivity between custody banks and WealthTechs (e.g. Portfolio Management Systems).
@@ -467,7 +467,12 @@ components:
         id:
           type: string
           maxLength: 128
-          description: Unique and unambiguous identification used by the bank for the customer.
+          description: Unique and unambiguous identification (i.e. UUID) used by the bank for the customer.
+          example: MTIzNDUtNg
+        number:
+          type: string
+          description: Contains the customers custody proprietary customer number if available.
+          maxLength: 70
           example: 12345-6
         referenceCurrency:
           $ref: '#/components/schemas/Currency'
@@ -536,7 +541,7 @@ components:
         id:
           type: string
           maxLength: 128
-          example: 8765432-19
+          example: ODc2NTQzMi0xOQ
           description: Unique and unambiguous identification for the account. The IBAN should NOT be the account identifier.
         type:
           type: string
@@ -559,9 +564,14 @@ components:
           $ref: '#/components/schemas/Currency'
         iban:
           type: string
-          description: Contains the accounts International Banking Account Number (IBAN) for a cashAccount if available.
+          description: Contains the accounts International Banking Account Number (IBAN) for an account if available.
           maxLength: 34
           example: CH123456789
+        number:
+          type: string
+          description: Contains the accounts custody proprietary account number for an account if available.
+          maxLength: 70
+          example: 123-1234-234
         designation:
           type: string
           maxLength: 70
@@ -569,6 +579,356 @@ components:
           example: Current Account CHF
         portfolioInformation:
           $ref: '#/components/schemas/PortfolioInformation'
+    Cash:
+      title: Cash
+      description: Cash.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+    Bond:
+      title: Bond
+      description: Bond.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          properties:
+            interestRate:
+              $ref: '#/components/schemas/InterestRate'
+            maturityDate:
+              description: |
+                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
+                is repaid by the issuer to the investor.
+              $ref: '#/components/schemas/Date'
+            issueDate:
+              description: Date at which the security was made available.
+              $ref: '#/components/schemas/Date'
+            conversionPrice:
+              description: Price of one target security in the conversion.
+              $ref: '#/components/schemas/Price'
+            currencyOfDenomination:
+              $ref: '#/components/schemas/Currency'
+            minimumDenomination:
+              type: number
+              example: 10000
+              description: Indicates the minimum denomination of a security.
+            minimumIncrement:
+              type: number
+              example: 1000
+              description: Indicates the minimum tradable increments of a security.
+            underlyingFinancialInstrument:
+              description: Financial instrument that would be subject to a conversion.
+              $ref: '#/components/schemas/FinancialInstrument'
+    Equity:
+      title: Equity
+      description: |
+        Equity, typically referred to as shareholders' equity (or owners' equity for privately held companies), represents the amount
+        of money that would be returned to a company's shareholders if all of the assets were liquidated and all of the company's debt
+        was paid off in the case of liquidation.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+    Fund:
+      title: Fund
+      description: |
+        An investment fund is a supply of capital belonging to numerous investors used to collectively purchase securities while each
+        investor retains ownership and control of his own shares.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+    Index:
+      title: Index
+      description: A financial index produces a numeric score based on inputs such as a variety of asset prices.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+    Commodity:
+      title: Commodity
+      description: Commodity.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+    Option:
+      title: Option
+      description: |
+        An option is a financial instrument that gives the holder the right, but not the obligation, to buy or sell an underlying
+        asset at a predetermined price within a given time frame.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          required:
+            - underlyingFinancialInstrument
+          properties:
+            expiryDate:
+              description: |
+                Date on which an order, a privilege, an entitlement or an offer terminates. For an interest bearing asset, it is the
+                date at which it becomes due and has to be repaid.
+              $ref: '#/components/schemas/Date'
+            exercisePrice:
+              description: Predetermined price at which the holder of a derivative will buy or sell the underlying instrument.
+              $ref: '#/components/schemas/Price'
+            contractSize:
+              $ref: '#/components/schemas/ContractSize'
+            optionType:
+              $ref: '#/components/schemas/OptionType'
+            optionStyle:
+              $ref: '#/components/schemas/OptionStyle'
+            underlyingFinancialInstrument:
+              $ref: '#/components/schemas/FinancialInstrument'
+    Future:
+      title: Future
+      description: Futures are derivative financial contracts that obligate parties to buy or sell an asset at a predetermined future date and price.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          required:
+            - underlyingFinancialInstrument
+          properties:
+            expiryDate:
+              description: |
+                Date on which an order, a privilege, an entitlement or an offer terminates. For an interest bearing asset, it is the
+                date at which it becomes due and has to be repaid.
+              $ref: '#/components/schemas/Date'
+            contractSize:
+              $ref: '#/components/schemas/ContractSize'
+            underlyingFinancialInstrument:
+              $ref: '#/components/schemas/FinancialInstrument'
+            exercisePrice:
+              description: Predetermined price at which the holder of a derivative will buy or sell the underlying instrument.
+              $ref: '#/components/schemas/Price'
+    FxForward:
+      title: FxForward
+      description: A forward contract is a customized contract between two parties to buy or sell currencies at a specified price on a future date.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          required:
+            - amountPaid
+            - amountReceived
+            - maturityDate
+          properties:
+            amountPaid:
+              description: Amount paid at the maturity of a contract (i.e. FX forward).
+              $ref: '#/components/schemas/CurrencyAmount'
+            amountReceived:
+              description: Amount received at the maturity of a contract (i.e. FX forward).
+              $ref: '#/components/schemas/CurrencyAmount'
+            maturityDate:
+              description: |
+                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
+                is repaid by the issuer to the investor.
+              $ref: '#/components/schemas/Date'
+    FxSwap:
+      title: FxSwap
+      description: |
+        A foreign currency swap is an agreement between two foreign parties to swap interest payments on a loan made in one currency
+        for interest payments on a loan made in another currency.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          required:
+            - nearAmountPaid
+            - nearAmountReceived
+            - farAmountPaid
+            - farAmountReceived
+            - nearMaturityDate
+            - maturityDate
+          properties:
+            nearAmountPaid:
+              description: Amount paid at the earlier part of an FX swap.
+              $ref: '#/components/schemas/CurrencyAmount'
+            nearAmountReceived:
+              description: Amount received at the earlier part of an FX swap.
+              $ref: '#/components/schemas/CurrencyAmount'
+            farAmountPaid:
+              description: Amount paid at the maturity of an FX swap.
+              $ref: '#/components/schemas/CurrencyAmount'
+            farAmountReceived:
+              description: Amount received at the maturity of an FX swap.
+              $ref: '#/components/schemas/CurrencyAmount'
+            nearMaturityDate:
+              description: Date of the settlement of the near leg.
+              $ref: '#/components/schemas/Date'
+            maturityDate:
+              description: |
+                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
+                is repaid by the issuer to the investor.
+              $ref: '#/components/schemas/Date'
+    FxOption:
+      title: FxOption
+      description: |
+        An FX option is a contract that gives the buyer the right, but not the obligation, to buy or sell a certain currency at a
+        specified exchange rate on or before a specified date. For this right, a premium is paid to the seller.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          required:
+            - expiryDateTime
+            - underlyingAmount
+            - counterAmount
+          properties:
+            expiryDateTime:
+              description: |
+                Date on which an order, a privilege, an entitlement or an offer terminates. For an interest bearing asset, it is the
+                date/time at which it becomes due and has to be repaid.
+              $ref: '#/components/schemas/DateTime'
+            underlyingAmount:
+              description: |
+                This field specifies the underlying currency and amount of the contract. The underlying currency is the currency which
+                is to be exchanged for the counter currency.
+              $ref: '#/components/schemas/CurrencyAmount'
+            counterAmount:
+              description: |
+                This field specifies the counter currency and amount of the contract. The counter currency is the currency
+                which is to be exchanged for the underlying currency.
+              $ref: '#/components/schemas/CurrencyAmount'
+            premium:
+              $ref: '#/components/schemas/CurrencyAmount'
+            optionType:
+              $ref: '#/components/schemas/OptionType'
+            optionStyle:
+              $ref: '#/components/schemas/OptionStyle'
+    Mortgage:
+      title: Mortgage
+      description: A mortgage is a type of loan used to purchase or maintain a home, plot of land, or other types of real estate.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          required:
+            - principalAmount
+          properties:
+            principalAmount:
+              description: The current amount subject to loan on which interest is calculated.
+              $ref: '#/components/schemas/CurrencyAmount'
+            interestRate:
+              $ref: '#/components/schemas/InterestRate'
+            limit:
+              type: number
+              example: 100000
+              description: Maximum principal amount allowed by the credit contract.
+    Credit:
+      title: Credit
+      description: Credit.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          required:
+            - principalAmount
+          properties:
+            principalAmount:
+              description: The current amount subject to loan or borrowing on which interest is calculated.
+              $ref: '#/components/schemas/CurrencyAmount'
+            interestRate:
+              $ref: '#/components/schemas/InterestRate'
+            limit:
+              type: number
+              example: 100000
+              description: Maximum principal amount allowed by the credit contract.
+            underlyingFinancialInstrument:
+              $ref: '#/components/schemas/FinancialInstrument'
+    MoneyMarket:
+      title: MoneyMarket
+      description: The money market schema covers both fixed and callable loans and deposits.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          required:
+            - principalAmount
+          properties:
+            principalAmount:
+              description: The current amount subject to loan or borrowing on which interest is calculated.
+              $ref: '#/components/schemas/CurrencyAmount'
+            interestRate:
+              $ref: '#/components/schemas/InterestRate'
+            maturityDate:
+              description: |
+                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
+                is repaid by the issuer to the investor.
+              $ref: '#/components/schemas/Date'
+    InterestRateSwap:
+      title: InterestRateSwap
+      description: |
+        An interest rate swap is a forward contract in which one stream of future interest payments is exchanged for another based
+        on a specified principal amount.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          required:
+            - notionalAmount
+            - interestRatePaid
+            - interestRateReceived
+          properties:
+            notionalAmount:
+              description: The notional amount serves as the foundation for calculating interest and the returns on an investment.
+              $ref: '#/components/schemas/CurrencyAmount'
+            interestRatePaid:
+              description: Per annum ratio of interest paid to the principal amount of the financial instrument for a specific period of time.
+              $ref: '#/components/schemas/InterestRate'
+            interestRateReceived:
+              description: Per annum ratio of interest received to the principal amount of the financial instrument for a specific period of time.
+              $ref: '#/components/schemas/InterestRate'
+            maturityDate:
+              description: |
+                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
+                is repaid by the issuer to the investor.
+              $ref: '#/components/schemas/Date'
+    TotalReturnSwap:
+      title: TotalReturnSwap
+      description: |
+        A swap agreement in which Party A pays fees to Party B in exchange for the income or return generated by an asset owned by
+        Party B. If the private client is party A and the bank party B the property 'interestRatePaid' should be used to describe
+        the interest, for opposite parties 'interestRateReceived'.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          required:
+            - notionalAmount
+            - underlyingFinancialInstrument
+          properties:
+            notionalAmount:
+              description: The notional amount serves as the foundation for calculating interest and the returns on an investment.
+              $ref: '#/components/schemas/CurrencyAmount'
+            interestRatePaid:
+              description: Per annum ratio of interest paid to the principal amount of the financial instrument for a specific period of time.
+              $ref: '#/components/schemas/InterestRate'
+            interestRateReceived:
+              description: Per annum ratio of interest received to the principal amount of the financial instrument for a specific period of time.
+              $ref: '#/components/schemas/InterestRate'
+            maturityDate:
+              description: |
+                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
+                is repaid by the issuer to the investor.
+              $ref: '#/components/schemas/Date'
+            underlyingFinancialInstrument:
+              $ref: '#/components/schemas/FinancialInstrument'
+    CreditDefaultSwap:
+      title: CreditDefaultSwap
+      description: A derivative product which serves as a form of insurance against the default of an underlying borrower or debt instrument.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          required:
+            - notionalAmount
+          properties:
+            notionalAmount:
+              description: The notional amount is the amount the risk 'buyer' agrees to pay the counter party in case of a default.
+              $ref: '#/components/schemas/CurrencyAmount'
+            maturityDate:
+              description: |
+                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
+                is repaid by the issuer to the investor.
+              $ref: '#/components/schemas/Date'
+            underlyingFinancialInstrument:
+              $ref: '#/components/schemas/FinancialInstrument'
+    CryptoAsset:
+      title: CryptoAsset
+      description: Crypto Asset.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+    OtherFinancialInstrument:
+      title: Other
+      type: object
+      description: Other financial instrument.
+      allOf:
+        - $ref: '#/components/schemas/FinancialInstrumentBase'
+        - type: object
+          properties:
+            underlyingFinancialInstrument:
+              $ref: '#/components/schemas/FinancialInstrument'
     FinancialInstrumentType:
       title: FinancialInstrumentType
       type: string
@@ -682,11 +1042,6 @@ components:
           maxLength: 70
           description: Provides additional information about the financial instrument in narrative form.
           example: Group contract number 129959961
-    Cash:
-      title: Cash
-      description: Cash.
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
     DayCountBasis:
       title: DayCountBasis
       type: string
@@ -717,7 +1072,6 @@ components:
       description: Per annum ratio of interest received or paid to the principal amount of the contract for a specific period of time.
       required:
         - type
-        - value
       properties:
         type:
           type: string
@@ -830,64 +1184,6 @@ components:
           creditDefaultSwap: '#/components/schemas/CreditDefaultSwap'
           cryptoAsset: '#/components/schemas/CryptoAsset'
           other: '#/components/schemas/OtherFinancialInstrument'
-    Bond:
-      title: Bond
-      description: Bond.
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            interestRate:
-              $ref: '#/components/schemas/InterestRate'
-            maturityDate:
-              description: |
-                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
-                is repaid by the issuer to the investor.
-              $ref: '#/components/schemas/Date'
-            issueDate:
-              description: Date at which the security was made available.
-              $ref: '#/components/schemas/Date'
-            conversionPrice:
-              description: Price of one target security in the conversion.
-              $ref: '#/components/schemas/Price'
-            currencyOfDenomination:
-              $ref: '#/components/schemas/Currency'
-            minimumDenomination:
-              type: number
-              example: 10000
-              description: Indicates the minimum denomination of a security.
-            minimumIncrement:
-              type: number
-              example: 1000
-              description: Indicates the minimum tradable increments of a security.
-            underlyingFinancialInstrument:
-              description: Financial instrument that would be subject to a conversion.
-              $ref: '#/components/schemas/FinancialInstrument'
-    Equity:
-      title: Equity
-      description: |
-        Equity, typically referred to as shareholders' equity (or owners' equity for privately held companies), represents the amount
-        of money that would be returned to a company's shareholders if all of the assets were liquidated and all of the company's debt
-        was paid off in the case of liquidation.
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-    Fund:
-      title: Fund
-      description: |
-        An investment fund is a supply of capital belonging to numerous investors used to collectively purchase securities while each
-        investor retains ownership and control of his own shares.
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-    Index:
-      title: Index
-      description: A financial index produces a numeric score based on inputs such as a variety of asset prices.
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-    Commodity:
-      title: Commodity
-      description: Commodity.
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
     ContractSize:
       title: ContractSize
       type: number
@@ -914,54 +1210,6 @@ components:
         - european
         - bermudan
         - asian
-    Option:
-      title: Option
-      description: |
-        An option is a financial instrument that gives the holder the right, but not the obligation, to buy or sell an underlying
-        asset at a predetermined price within a given time frame.
-      required:
-        - underlyingFinancialInstrument
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            expiryDate:
-              description: |
-                Date on which an order, a privilege, an entitlement or an offer terminates. For an interest bearing asset, it is the
-                date at which it becomes due and has to be repaid.
-              $ref: '#/components/schemas/Date'
-            exercisePrice:
-              description: Predetermined price at which the holder of a derivative will buy or sell the underlying instrument.
-              $ref: '#/components/schemas/Price'
-            contractSize:
-              $ref: '#/components/schemas/ContractSize'
-            optionType:
-              $ref: '#/components/schemas/OptionType'
-            optionStyle:
-              $ref: '#/components/schemas/OptionStyle'
-            underlyingFinancialInstrument:
-              $ref: '#/components/schemas/FinancialInstrument'
-    Future:
-      title: Future
-      description: Futures are derivative financial contracts that obligate parties to buy or sell an asset at a predetermined future date and price.
-      required:
-        - underlyingFinancialInstrument
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            expiryDate:
-              description: |
-                Date on which an order, a privilege, an entitlement or an offer terminates. For an interest bearing asset, it is the
-                date at which it becomes due and has to be repaid.
-              $ref: '#/components/schemas/Date'
-            contractSize:
-              $ref: '#/components/schemas/ContractSize'
-            underlyingFinancialInstrument:
-              $ref: '#/components/schemas/FinancialInstrument'
-            exercisePrice:
-              description: Predetermined price at which the holder of a derivative will buy or sell the underlying instrument.
-              $ref: '#/components/schemas/Price'
     CurrencyAmount:
       title: CurrencyAmount
       type: object
@@ -976,251 +1224,12 @@ components:
           description: Signed amount.
         currency:
           $ref: '#/components/schemas/Currency'
-    FxForward:
-      title: FxForward
-      description: A forward contract is a customized contract between two parties to buy or sell currencies at a specified price on a future date.
-      required:
-        - amountPaid
-        - amountReceived
-        - maturityDate
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            amountPaid:
-              description: Amount paid at the maturity of a contract (i.e. FX forward).
-              $ref: '#/components/schemas/CurrencyAmount'
-            amountReceived:
-              description: Amount received at the maturity of a contract (i.e. FX forward).
-              $ref: '#/components/schemas/CurrencyAmount'
-            maturityDate:
-              description: |
-                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
-                is repaid by the issuer to the investor.
-              $ref: '#/components/schemas/Date'
-    FxSwap:
-      title: FxSwap
-      description: |
-        A foreign currency swap is an agreement between two foreign parties to swap interest payments on a loan made in one currency
-        for interest payments on a loan made in another currency.
-      required:
-        - nearAmountPaid
-        - nearAmountReceived
-        - farAmountPaid
-        - farAmountReceived
-        - nearMaturityDate
-        - maturityDate
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            nearAmountPaid:
-              description: Amount paid at the earlier part of an FX swap.
-              $ref: '#/components/schemas/CurrencyAmount'
-            nearAmountReceived:
-              description: Amount received at the earlier part of an FX swap.
-              $ref: '#/components/schemas/CurrencyAmount'
-            farAmountPaid:
-              description: Amount paid at the maturity of an FX swap.
-              $ref: '#/components/schemas/CurrencyAmount'
-            farAmountReceived:
-              description: Amount received at the maturity of an FX swap.
-              $ref: '#/components/schemas/CurrencyAmount'
-            nearMaturityDate:
-              description: Date of the settlement of the near leg.
-              $ref: '#/components/schemas/Date'
-            maturityDate:
-              description: |
-                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
-                is repaid by the issuer to the investor.
-              $ref: '#/components/schemas/Date'
     DateTime:
       title: DateTime
       type: string
       description: DateTime according to ISO 8601.
       format: date-time
-      example: 2018-04-13T16:00+01:00
-    FxOption:
-      title: FxOption
-      description: |
-        An FX option is a contract that gives the buyer the right, but not the obligation, to buy or sell a certain currency at a
-        specified exchange rate on or before a specified date. For this right, a premium is paid to the seller.
-      required:
-        - expiryDateTime
-        - underlyingAmount
-        - counterAmount
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            expiryDateTime:
-              description: |
-                Date on which an order, a privilege, an entitlement or an offer terminates. For an interest bearing asset, it is the
-                date/time at which it becomes due and has to be repaid.
-              $ref: '#/components/schemas/DateTime'
-            underlyingAmount:
-              description: |
-                This field specifies the underlying currency and amount of the contract. The underlying currency is the currency which
-                is to be exchanged for the counter currency.
-              $ref: '#/components/schemas/CurrencyAmount'
-            counterAmount:
-              description: |
-                This field specifies the counter currency and amount of the contract. The counter currency is the currency
-                which is to be exchanged for the underlying currency.
-              $ref: '#/components/schemas/CurrencyAmount'
-            premium:
-              $ref: '#/components/schemas/CurrencyAmount'
-            optionType:
-              $ref: '#/components/schemas/OptionType'
-            optionStyle:
-              $ref: '#/components/schemas/OptionStyle'
-    Mortgage:
-      title: Mortgage
-      description: A mortgage is a type of loan used to purchase or maintain a home, plot of land, or other types of real estate.
-      required:
-        - principalAmount
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            principalAmount:
-              description: The current amount subject to loan on which interest is calculated.
-              $ref: '#/components/schemas/CurrencyAmount'
-            interestRate:
-              $ref: '#/components/schemas/InterestRate'
-            limit:
-              type: number
-              example: 100000
-              description: Maximum principal amount allowed by the credit contract.
-    Credit:
-      title: Credit
-      description: Credit.
-      required:
-        - principalAmount
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            principalAmount:
-              description: The current amount subject to loan or borrowing on which interest is calculated.
-              $ref: '#/components/schemas/CurrencyAmount'
-            interestRate:
-              $ref: '#/components/schemas/InterestRate'
-            limit:
-              type: number
-              example: 100000
-              description: Maximum principal amount allowed by the credit contract.
-            underlyingFinancialInstrument:
-              $ref: '#/components/schemas/FinancialInstrument'
-    MoneyMarket:
-      title: MoneyMarket
-      description: The money market schema covers both fixed and callable loans and deposits.
-      required:
-        - principalAmount
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            principalAmount:
-              description: The current amount subject to loan or borrowing on which interest is calculated.
-              $ref: '#/components/schemas/CurrencyAmount'
-            interestRate:
-              $ref: '#/components/schemas/InterestRate'
-            maturityDate:
-              description: |
-                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
-                is repaid by the issuer to the investor.
-              $ref: '#/components/schemas/Date'
-    InterestRateSwap:
-      title: InterestRateSwap
-      description: |
-        An interest rate swap is a forward contract in which one stream of future interest payments is exchanged for another based
-        on a specified principal amount.
-      required:
-        - notionalAmount
-        - interestRatePaid
-        - interestRateReceived
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            notionalAmount:
-              description: The notional amount serves as the foundation for calculating interest and the returns on an investment.
-              $ref: '#/components/schemas/CurrencyAmount'
-            interestRatePaid:
-              description: Per annum ratio of interest paid to the principal amount of the financial instrument for a specific period of time.
-              $ref: '#/components/schemas/InterestRate'
-            interestRateReceived:
-              description: Per annum ratio of interest received to the principal amount of the financial instrument for a specific period of time.
-              $ref: '#/components/schemas/InterestRate'
-            maturityDate:
-              description: |
-                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
-                is repaid by the issuer to the investor.
-              $ref: '#/components/schemas/Date'
-    TotalReturnSwap:
-      title: TotalReturnSwap
-      description: |
-        A swap agreement in which Party A pays fees to Party B in exchange for the income or return generated by an asset owned by
-        Party B. If the private client is party A and the bank party B the property 'interestRatePaid' should be used to describe
-        the interest, for opposite parties 'interestRateReceived'.
-      required:
-        - notionalAmount
-        - underlyingFinancialInstrument
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            notionalAmount:
-              description: The notional amount serves as the foundation for calculating interest and the returns on an investment.
-              $ref: '#/components/schemas/CurrencyAmount'
-            interestRatePaid:
-              description: Per annum ratio of interest paid to the principal amount of the financial instrument for a specific period of time.
-              $ref: '#/components/schemas/InterestRate'
-            interestRateReceived:
-              description: Per annum ratio of interest received to the principal amount of the financial instrument for a specific period of time.
-              $ref: '#/components/schemas/InterestRate'
-            maturityDate:
-              description: |
-                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
-                is repaid by the issuer to the investor.
-              $ref: '#/components/schemas/Date'
-            underlyingFinancialInstrument:
-              $ref: '#/components/schemas/FinancialInstrument'
-    CreditDefaultSwap:
-      title: CreditDefaultSwap
-      description: A derivative product which serves as a form of insurance against the default of an underlying borrower or debt instrument.
-      required:
-        - notionalAmount
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            notionalAmount:
-              description: The notional amount is the amount the risk 'buyer' agrees to pay the counter party in case of a default.
-              $ref: '#/components/schemas/CurrencyAmount'
-            maturityDate:
-              description: |
-                Planned date, at the time of issuance, on which an interest bearing financial instrument becomes due and principal
-                is repaid by the issuer to the investor.
-              $ref: '#/components/schemas/Date'
-            underlyingFinancialInstrument:
-              $ref: '#/components/schemas/FinancialInstrument'
-    CryptoAsset:
-      title: CryptoAsset
-      description: Crypto Asset.
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-    OtherFinancialInstrument:
-      title: Other
-      type: object
-      description: Other financial instrument.
-      allOf:
-        - $ref: '#/components/schemas/FinancialInstrumentBase'
-        - type: object
-          properties:
-            underlyingFinancialInstrument:
-              $ref: '#/components/schemas/FinancialInstrument'
+      example: '2018-04-13T16:00:00Z'
     Position:
       title: Position
       type: object
@@ -1233,7 +1242,7 @@ components:
         id:
           type: string
           maxLength: 128
-          example: 876-543219
+          example: ODc2LTU0MzIxOQ
           description: Identification for the position given by the bank.
         financialInstrument:
           $ref: '#/components/schemas/FinancialInstrument'
@@ -1296,6 +1305,7 @@ components:
         valueInReferenceCurrency:
           $ref: '#/components/schemas/CurrencyAmount'
         valuationDate:
+          description: Date when the position was valuated.
           $ref: '#/components/schemas/Date'
     ValuationPrice:
       title: ValuationPrice
@@ -1363,7 +1373,7 @@ components:
           type: boolean
           example: true
         positionDate:
-          description: Date at which the position was valuated.
+          description: Date when the valuated position entity is exposed in the API (corresponding to the dateParam).
           $ref: '#/components/schemas/Date'
         quantity:
           $ref: '#/components/schemas/Quantity'
@@ -1574,12 +1584,12 @@ components:
           type: string
           readOnly: true
           maxLength: 128
-          example: 9876-54321
+          example: OTg3Ni01NDMyMQ
           description: Transaction ID given by the bank.
         type:
           $ref: '#/components/schemas/TransactionType'
         transactionDate:
-          description: Date of transaction entity.
+          description: Date when the transaction entity is exposed in the API (corresponding to the dateParam).
           $ref: '#/components/schemas/Date'
         customerId:
           type: string
@@ -1621,6 +1631,8 @@ components:
           $ref: '#/components/schemas/FinancialInstrument'
         triggeringQuantity:
           $ref: '#/components/schemas/Quantity'
+        triggeringPrice:
+          $ref: '#/components/schemas/Price'
         movementList:
           type: array
           description: List of movements belonging to a transaction from a banks perspective.
