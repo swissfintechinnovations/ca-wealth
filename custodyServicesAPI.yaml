@@ -18,7 +18,6 @@ servers:
 externalDocs:
   description: Find out more about OpenWealth API specifications.
   url: https://openwealth.ch
-security: []
 tags:
   - name: accounts
     description: Accounts operations.
@@ -28,6 +27,7 @@ tags:
     description: Position operations.
   - name: transactions
     description: Transaction operations.
+security: []
 paths:
   /customers:
     get:
