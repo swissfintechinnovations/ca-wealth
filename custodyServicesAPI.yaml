@@ -1187,7 +1187,6 @@ components:
       type: number
       description: Contract size of the instrument.
       example: 100
-      default: 1
     OptionType:
       title: OptionType
       type: string
