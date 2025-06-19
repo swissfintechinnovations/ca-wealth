@@ -1075,7 +1075,7 @@ components:
         - index
         - side
         - quantity
-        - qunatityType
+        - quantityType
         - baseInstrument
         - quoteInstrument
         - unitReference
