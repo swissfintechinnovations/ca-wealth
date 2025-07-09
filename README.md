@@ -2,10 +2,10 @@
 ![ca-wealth](https://user-images.githubusercontent.com/116151702/236239144-3c899e32-a88c-4890-816e-ec45bcadc6e1.png)
 
 ---
-[![GitHub release](https://img.shields.io/github/release/swissfintechinnovations/ca-wealth?color=blue)](https://github.com/swissfintechinnovations/ca-wealth/releases/)
+[![GitHub release](https://img.shields.io/github/v/tag/swissfintechinnovations/ca-wealth?label=latest%20release&color=blue)](https://github.com/swissfintechinnovations/ca-wealth/releases/)
 ![Custody Services Major Version](https://img.shields.io/badge/custody_services-v3-blue)
-![Custody Services Major Version](https://img.shields.io/badge/customer_management-v2-blue)
-![Custody Services Major Version](https://img.shields.io/badge/order_placement-v2-blue)
+![Customer Managment Major Version](https://img.shields.io/badge/customer_management-v2-blue)
+![Trading API Major Version](https://img.shields.io/badge/trading-v3-blue)
 [![OpenAPI version](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fgithub.com%2Fswissfintechinnovations%2Fca-wealth%2Fraw%2Fmain%2FcustodyServicesAPI.yaml&query=openapi&prefix=v&label=OpenAPI&color=blue)](https://swagger.io/resources/open-api/)
 [![GitHub license](https://img.shields.io/github/license/swissfintechinnovations/ca-wealth?color=de980d)](https://github.com/swissfintechinnovations/ca-wealth/blob/main/LICENSE)
 
